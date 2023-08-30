@@ -13,7 +13,6 @@ import java.util.logging.Logger;
  * @author nahin
  */
 public class FormPrueba extends javax.swing.JFrame {
-
     /**
      * Creates new form FormPrueba
      */

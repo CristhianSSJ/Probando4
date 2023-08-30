@@ -165,76 +165,96 @@ public class FormCategoria extends javax.swing.JFrame {
 
     private void ClearJBUTTON1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearJBUTTON1ActionPerformed
         // TODO add your handling code here:
-     TextoCategoria.setText("");
-     LabelCategoria.setText("");
-        this.mostrar(Tabla, "select * from Categoria");
+     TextoCategoria.setText("");//ta
+     LabelCategoria.setText("");//ta
+        this.mostrar(Tabla, "select * from Categoria");//4Ta+ n(2Tc + 2To + 2Ta)+tc
+        //2Ta+4Ta+ n(2Tc + 2To + 2Ta)+tc
+        //6Ta+ n(2Tc + 2To + 2Ta)+tc
     }//GEN-LAST:event_ClearJBUTTON1ActionPerformed
- private void mostrar(javax.swing.JTable JT, String sql) {
-        try {
-            Clientes cb = new Clientes();
-            ResultSet rs;
-            DefaultTableModel modelo = new DefaultTableModel();
-            JT.setModel(modelo);
-            rs = cb.consultaTabla(sql);
-            ResultSetMetaData rsMd;
-            rsMd = rs.getMetaData();
-            int cantcolumnas = rsMd.getColumnCount();
-            for (int i = 1; i <= cantcolumnas; i++) {
-                modelo.addColumn(rsMd.getColumnLabel(i));
-            }
-            while (rs.next()) {
-                Object[] columna = new Object[cantcolumnas];
-                for (int i = 0; i < cantcolumnas; i++) {
-                    columna[i] = rs.getObject(i + 1);
-                }
-                modelo.addRow(columna);
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error" + e.toString());
-        }
-    }
+    private void mostrar(javax.swing.JTable JT, String sql) {
+           try {
+               Clientes cb = new Clientes();//Ta
+               ResultSet rs;
+               DefaultTableModel modelo = new DefaultTableModel();//Ta
+               JT.setModel(modelo);//Ta
+               rs = cb.consultaTabla(sql);//Ta+2Ta
+               ResultSetMetaData rsMd;
+               rsMd = rs.getMetaData();//Ta
+               int cantcolumnas = rsMd.getColumnCount();//Ta
+               //Ta+Ta+Ta+Ta+2Ta+Ta+Ta
+               for (int i = 1; i <= cantcolumnas; i++) {//Ta+n*Tc+n*To+n*Ta
+                   modelo.addColumn(rsMd.getColumnLabel(i));//Ta
+               }
+               while (rs.next()) {//Tc*n+tc
+                   Object[] columna = new Object[cantcolumnas];//Ta
+                   for (int i = 0; i < cantcolumnas; i++) {//Ta+n*Tc+n*to+n*ta
+                       columna[i] = rs.getObject(i + 1);//Ta
+                   }
+                   modelo.addRow(columna);//Ta
+               }
+               
+           } catch (Exception e) {
+               JOptionPane.showMessageDialog(null, "Error" + e.toString());
+           }
+           //TiempoPeorEsperado
+           //Ta+Ta+Ta+Ta+2Ta+Ta+Ta+Ta+n*Tc+n*To+n*Ta+Ta+Tc*n+tc+Ta+Ta+n*Tc+n*To+n*Ta+Ta+Ta
+           //9Ta+n(Tc+To+Ta)+2Ta+Tc*n+tc+Ta+n(Tc+To+Ta)+2Ta
+           //14Ta + n(Tc+2Tc + 2To + 2Ta)+ + Tc
+           //TiempoMejor Esperado
+           ////Ta+Ta+Ta+Ta+2Ta+Ta+Taporque no entra al while ni for
+           //10Ta
+          //Tiempo esperado 
+    //Te=[14Ta + n(2Tc + 2To + 2Ta) + Tc]-(10Ta)
+    //Te=4Ta+ n(2Tc + 2To + 2Ta)+tc 
+       }
     private void UPDATEJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UPDATEJBUTTONActionPerformed
         try {
             // TODO add your handling code here:
-            Categoria C= new Categoria();
-            C.setCategoria(TextoCategoria.getText());  
-            C.Actualiza_Categoria();
-            this.mostrar(Tabla, "select * from Categoria");
+            Categoria C= new Categoria();//Ta
+            C.setCategoria(TextoCategoria.getText());//Ta  
+            C.Actualiza_Categoria();//3Ta
+            this.mostrar(Tabla, "select * from Categoria");//4Ta+ n(2Tc + 2To + 2Ta)+tc
         } catch (Exception ex) {
             Logger.getLogger(FormCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //Ta+Ta+3Ta+4Ta+ n(2Tc + 2To + 2Ta)+tc
+        //9Ta+n(2Tc + 2To + 2Ta) + Tc
     }//GEN-LAST:event_UPDATEJBUTTONActionPerformed
 
     private void CONSULTJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CONSULTJBUTTONActionPerformed
         // TODO add your handling code here:
-        this.mostrar(Tabla, "select * from Categoria");
+        this.mostrar(Tabla, "select * from Categoria");//14Ta + n(2Tc + 2To + 2Ta) + Tc
     }//GEN-LAST:event_CONSULTJBUTTONActionPerformed
 
     private void DELETEJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DELETEJBUTTONActionPerformed
         // TODO add your handling code here:
         try {
             // TODO add your handling code here:
-            Categoria C = new Categoria();
-            C.setIdCategoria(Integer.parseInt(LabelCategoria.getText()));
-            C.Eliminar_Categoria();
-            this.mostrar(Tabla, "select * from Categoria");
+            Categoria C = new Categoria();//Ta
+            C.setIdCategoria(Integer.parseInt(LabelCategoria.getText()));//Ta
+            C.Eliminar_Categoria();//3Ta
+            this.mostrar(Tabla, "select * from Categoria");//4Ta+ n(2Tc + 2To + 2Ta)+tc
         } catch (Exception ex) {
             Logger.getLogger(FormCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+         //Ta+Ta+3Ta+4Ta+ n(2Tc + 2To + 2Ta)+tc
+                 //9Ta+n(2Tc + 2To + 2Ta) + Tc
+
     }//GEN-LAST:event_DELETEJBUTTONActionPerformed
 
     private void ADDBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADDBUTTONActionPerformed
         try {
             // TODO add your handling code here:
-            Categoria C = new Categoria();
-            C.setCategoria(TextoCategoria.getText());
-            C.Insertar_Categoria();
-            this.mostrar(Tabla, "select * from Categoria");
+            Categoria C = new Categoria();//Ta
+            C.setCategoria(TextoCategoria.getText());//Ta
+            C.Insertar_Categoria();//3Ta
+            this.mostrar(Tabla, "select * from Categoria");//4Ta+ n(2Tc + 2To + 2Ta)+tc
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "El ingreso no pudo realizarse ");
         }
+        //Ta+Ta+3Ta+4Ta+ n(2Tc + 2To + 2Ta)+tc
+        //9Ta  + n(2Tc + 2To + 2Ta)+tc
     }//GEN-LAST:event_ADDBUTTONActionPerformed
 
     private void TextoCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextoCategoriaActionPerformed

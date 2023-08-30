@@ -9,6 +9,5 @@ public class PoyectoIngVargas {
         //Andrade Acosta Cristhian Nahim
        //Delgado Bravo Fernando 
       // Yepez Rodriguez Oralys Fiorella
-      
     }
 }

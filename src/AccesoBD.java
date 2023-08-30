@@ -9,11 +9,11 @@ public class AccesoBD {
     private Connection conexion;
 
     public AccesoBD(String Host, String User, String Password, String BD) {
-        this.Host = Host;
-        this.User = User;
-        this.Password = Password;
-        this.BD = BD;
-
+        this.Host = Host;//Ta
+        this.User = User;//Ta
+        this.Password = Password;//Ta
+        this.BD = BD;//Ta
+        //4Ta
     }
 
     public String getHost() {
@@ -34,34 +34,35 @@ public class AccesoBD {
 
     public void ConectaBD() throws Exception {
         try {
-            Driver driver = (Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            String cadena = "jdbc:mysql://" + getHost() + "/" + getBD();
-            conexion = DriverManager.getConnection(cadena, getUser(), getPassword());
+            Driver driver = (Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance();//Ta
+            String cadena = "jdbc:mysql://" + getHost() + "/" + getBD();//Ta
+            conexion = DriverManager.getConnection(cadena, getUser(), getPassword());//Ta
         } catch (SQLException e) {
             System.out.println("Error a la conexion a la Base de Datos" + e.toString());
         }
+        //3Ta
     }
 
     public void ActualizarBD(String sql)throws SQLException{
         try {
-            Statement stm=conexion.createStatement();
-            stm.executeUpdate(sql);
+            Statement stm=conexion.createStatement();//Ta
+            stm.executeUpdate(sql);//Ta
                  JOptionPane.showMessageDialog(null, "Transaccion exitosa");
             } catch(SQLIntegrityConstraintViolationException e){
             JOptionPane.showMessageDialog(null, "Transaccion fallida"+e.toString());
         
         } catch (SQLException e) {
             System.out.println("Error en la Transaccion "+ e.toString());
-       
-        
+        //2ta
     }
     }
 
     public ResultSet ConsultaBD(String sql) throws SQLException {
         ResultSet Cursor;
-        Statement stm = conexion.createStatement();
-        Cursor = stm.executeQuery(sql);
+        Statement stm = conexion.createStatement();//Ta
+        Cursor = stm.executeQuery(sql);//Ta
         return Cursor;
+        //2Ta
     }
 
     public void CerrarBD() throws SQLException {
