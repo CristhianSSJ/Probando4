@@ -14,9 +14,9 @@ public class FromLibro extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         try {
-            LllenarCBXAutor(CBXAutor);
-            LlenarCBXBiblioteca(CBXBiblioteca);
-            LlenarCBXCategoria(CBXCategoria);
+            LllenarCBXAutor(CBXAutor);//n(2Ta+Tc+To)-2Ta+Tc+To
+            LlenarCBXBiblioteca(CBXBiblioteca);//-Ta+n*(2Ta+Tc+To)-Tc-To
+            LlenarCBXCategoria(CBXCategoria);//n*Tc+N(Ta+To)-Tc-Ta-To
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -27,10 +27,20 @@ public class FromLibro extends javax.swing.JFrame {
         Biblioteca B = new Biblioteca();//Ta
         ArrayList<Biblioteca> ListaB = B.bibliotecaVista();//TA
         CBXBiblioteca.removeAllItems();//Ta
-        for (int i = 0; i < ListaB.size(); i++) {//Ta*n
-            modelo.addElement(ListaB.get(i));
+        for (int i = 0; i < ListaB.size(); i++) {//n*(Ta+Tc+To)
+            modelo.addElement(ListaB.get(i));//n*Ta
         }
-        JB.setModel(modelo);
+        JB.setModel(modelo);//Ta
+        /*
+        Tiempo Peor Esperado
+        6Ta+n*Ta+n*(Ta+Tc+To)
+        6Ta+n*(2Ta+Tc+To)
+        Tiempo Mejor Esperado
+        7Ta+Tc+To
+        Tiempo Esperado
+        6Ta+n*(2Ta+Tc+To)-7Ta+Tc+To
+        -Ta+n*(2Ta+Tc+To)-Tc-To
+        */
     }
     public void LllenarCBXAutor(JComboBox JA) throws Exception{
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();//Ta

@@ -11,20 +11,10 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author nahin
- */
+//ORALYS
 public class FormOrdenes extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FormOrdenes
-     */
+ 
     public FormOrdenes() throws Exception {
         initComponents();
         LLBC(CBXCliente);
@@ -35,30 +25,33 @@ public class FormOrdenes extends javax.swing.JFrame {
     }
 
     public void LlenarLibros(JComboBox Lb) throws Exception {
-        DefaultComboBoxModel AAA = new DefaultComboBoxModel();
-        Lb.setModel(AAA);
-        Libros L = new Libros();
-        ArrayList<Libros> ListaL = L.LibrosVista();
-        CBXLibro.removeAllItems();
-        System.out.println(ListaL.size());
-        for (int i = 0; i < ListaL.size(); i++) {
-            AAA.addElement(ListaL.get(i));
+        DefaultComboBoxModel AAA = new DefaultComboBoxModel(); //TA
+        Lb.setModel(AAA); 
+        Libros L = new Libros();                              //TA
+        ArrayList<Libros> ListaL = L.LibrosVista();           //TA
+        CBXLibro.removeAllItems();                            //TA 
+        System.out.println(ListaL.size());                    
+        for (int i = 0; i < ListaL.size(); i++) {             // N * TA + N*TC + N*TO
+            AAA.addElement(ListaL.get(i));                    
             System.out.println(ListaL.get(i));
             System.out.println(ListaL.get(i).getIdAutor());
             System.out.println(ListaL.get(i).getTitulo());
 
         }
-        CBXLibro.setModel(AAA);
-    }
-
+        CBXLibro.setModel(AAA);                               //TA 
+        
+    }   // 5TA + N * TA + N*TC + N*TO      TIEMPO PEOR ESPERADO 
+        // 6TA          +   TC +   TO      TIEMPO MEJOR ESPERADO 
+        //____________________________
+        // -TA N * TA + N*TC + N*TO - TC -TO         TIEMPO ESPERADO
     public void LLBC(JComboBox JJ) throws Exception {
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();//Ta
-        JJ.setModel(modelo);//ta
-        Clientes C = new Clientes();//ta
-        ArrayList<Clientes> ListaC = C.Consulta();//ta
-        CBXCliente.removeAllItems();//ta
-        for (int i = 0; i < ListaC.size(); i++) {//ta+n(ta+tc+to)
-            modelo.addElement(ListaC.get(i));//ta
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();   //TA
+        JJ.setModel(modelo);          //TA
+        Clientes C = new Clientes();  //TA 
+        ArrayList<Clientes> ListaC = C.Consulta();  //TA
+        CBXCliente.removeAllItems();                //TA
+        for (int i = 0; i < ListaC.size(); i++) {   //N*TA + N*TC + N*TO
+            modelo.addElement(ListaC.get(i));       //TA
         }
         JJ.setModel(modelo);//ta
         /*
@@ -73,16 +66,20 @@ public class FormOrdenes extends javax.swing.JFrame {
 
     public void LLLL(JComboBox LL) throws Exception {
 
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        LL.setModel(modelo);
-        Biblioteca S = new Biblioteca();
-        ArrayList<Biblioteca> ListaS = S.bibliotecaVista();
-        CBXBi.removeAllItems();
-        for (int i = 0; i < ListaS.size(); i++) {
-            modelo.addElement(ListaS.get(i));
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel(); //TA
+        LL.setModel(modelo);                                      //TA
+        Biblioteca S = new Biblioteca();                          //TA
+        ArrayList<Biblioteca> ListaS = S.bibliotecaVista();       //TA
+        CBXBi.removeAllItems();                                   //TA
+        for (int i = 0; i < ListaS.size(); i++) {            //N*TA + N*TC + N*TO
+            modelo.addElement(ListaS.get(i));                //TA
         }
-        LL.setModel(modelo);
-    }
+        LL.setModel(modelo);                                 //TA
+    }  // 7TA + N*TA + N*TC + N*TO     ----TIEMPO PEOR ESPERADO
+       // 8TA +   TC +   TO            ----TIEMPOR MEJOR ESPERADO
+       //__________________________
+       //  -TA + TC + TO               ----> TIEMPO ESPERADO.
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -369,51 +366,68 @@ public class FormOrdenes extends javax.swing.JFrame {
     }//GEN-LAST:event_CBXBiActionPerformed
 
     private void CBXBiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBXBiItemStateChanged
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
+        if (evt.getStateChange() == ItemEvent.SELECTED) {          // TC
             try {
-                //            SELECT * FROM supervisor INNER JOIN biblioteca ON supervisor.idSupervisor = biblioteca.idSupervisor WHERE biblioteca.idBiblioteca = + 1;
-                Biblioteca b = (Biblioteca) CBXBi.getSelectedItem();
-                int idb = b.getIdBiblioteca();
-                LLenarSuper(CBXSupervisor, idb);
+    //SELECT * FROM supervisor INNER JOIN biblioteca ON supervisor.idSupervisor = biblioteca.idSupervisor WHERE biblioteca.idBiblioteca = + 1;
+                Biblioteca b = (Biblioteca) CBXBi.getSelectedItem();   //TA
+                int idb = b.getIdBiblioteca();                          //TA
+                LLenarSuper(CBXSupervisor, idb);                       // -TA + N*TA +N*TC + N*TO - TC - TO 
             } catch (Exception ex) {
                 Logger.getLogger(FormOrdenes.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_CBXBiItemStateChanged
-
+    //2TA + TC -TA + N*TA +N*TC + N*TO - TC - TO   =   TIEMPO PEOR ESPERADO 
+    //    - TC                                     =   TIEMPO MEJOR ESPERADO
+    //____________________________________________
+    //-TA - TC + N*TA +N*TC + N*TO - TO            =   TIEMPO ESPERADO.
     private void CBXLibroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXLibroMouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
-            FromLibro l = new FromLibro();
-            l.setVisible(true);
+        if (evt.getClickCount() == 2) {  //TC
+            FromLibro l = new FromLibro();  //TA
+            l.setVisible(true);            //TA
         }
     }//GEN-LAST:event_CBXLibroMouseClicked
-
+           //TC + TA + TA  =    2TA +TC ---- TIEMPO PEOR ESPERADO
+           //-TC                         ---- TIEMPO MEJOR ESPERADO
+           //____________ 
+           //     2TA
     private void CBXClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXClienteMouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) { //TC
 
-            FormCliente B = new FormCliente();
-            B.setVisible(true);
+            FormCliente B = new FormCliente(); //TA
+            B.setVisible(true);                //TA
 
         }
     }//GEN-LAST:event_CBXClienteMouseClicked
-
+                              
+           //TC + TA + TA  =    2TA +TC ---- TIEMPO PEOR ESPERADO
+           //-TC                         ---- TIEMPO MEJOR ESPERADO
+           //____________ 
+           //     2TA
+    
     private void CBXBiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXBiMouseClicked
-        if (evt.getClickCount() == 2) {
-
-            FromBiblioteca B = new FromBiblioteca();
-            B.setVisible(true);
-
-        }        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {      //TC
+            FromBiblioteca B = new FromBiblioteca(); //TA
+            B.setVisible(true);                      //TA 
+       }        // TODO add your handling code here:
     }//GEN-LAST:event_CBXBiMouseClicked
-
+                                         
+           //TC + TA + TA  =    2TA +TC ---- TIEMPO PEOR ESPERADO
+           //-TC                         ---- TIEMPO MEJOR ESPERADO
+           //____________ 
+           //     2TA
     private void CBXSupervisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXSupervisorMouseClicked
-        if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) { //TC
 
-            FormSupervisor B = new FormSupervisor();
-            B.setVisible(true);
-
+            FormSupervisor B = new FormSupervisor();  //TA
+            B.setVisible(true);                       //TA
+                                         
+           //TC + TA + TA  =    2TA +TC ---- TIEMPO PEOR ESPERADO
+           //-TC                         ---- TIEMPO MEJOR ESPERADO
+           //____________ 
+           //     2TA
         }        // TODO add your handling code here:
     }//GEN-LAST:event_CBXSupervisorMouseClicked
 
@@ -526,17 +540,21 @@ public class FormOrdenes extends javax.swing.JFrame {
         TextoIDo.setText(Tabla.getModel().getValueAt(fila , 0).toString());
     }
     public void LLenarSuper(JComboBox JC, int IDB) throws Exception {
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        JC.setModel(modelo);
-        Biblioteca L = new Biblioteca();
-        ArrayList<Biblioteca> ListaL = L.VistaEspecial(IDB);
-        CBXSupervisor.removeAllItems();
-        for (int i = 0; i < ListaL.size(); i++) {
-            modelo.addElement(ListaL.get(i));
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel(); //TA   
+        JC.setModel(modelo);  //TA
+        Biblioteca L = new Biblioteca(); //TA
+        ArrayList<Biblioteca> ListaL = L.VistaEspecial(IDB); //TA
+        CBXSupervisor.removeAllItems(); //TA
+        for (int i = 0; i < ListaL.size(); i++) { //N*TA + N*TC + N*TO
+            modelo.addElement(ListaL.get(i));     //TA
         }
-        JC.setModel(modelo);
-    }
-
+        JC.setModel(modelo);                     //TA 
+    } 
+      // 7TA + N*TA + N*TC + N*TO               TIEMPO PEOR ESPERADO
+      // -8TA +       TC +     TO               TIEMPO MEJOR ESPERADO
+      //___________________________________
+      //  -TA + N*TA +N*TC + N*TO - TC - TO             TIEMPO ESPERADO.
+                 
     /**
      * @param args the command line arguments
      */
