@@ -335,7 +335,8 @@ public class FromLibro extends javax.swing.JFrame {
             L.setIdCategoria(C.getIdCategoria());//Ta
             L.setLibrosID(Integer.parseInt(LabelID.getText()));//Ta
             L.Actualizar_Libro();//4Ta
-            this.mostrar(Tabla,"Select * From libro ");
+            this.mostrar(Tabla,"Select * From libro ");//2Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
+            //16Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -353,7 +354,7 @@ public class FromLibro extends javax.swing.JFrame {
     private void CBXBibliotecaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXBibliotecaMouseClicked
         // TODO add your handling code here:
         if(evt.getClickCount()==2){
-            FromBiblioteca B = new FromBiblioteca();
+            FromBiblioteca B = new FromBiblioteca();//Ta
             B.setVisible(true);
             
         }
@@ -367,7 +368,7 @@ public class FromLibro extends javax.swing.JFrame {
     private void CBXAutorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXAutorMouseClicked
         // TODO add your handling code here:
             if(evt.getClickCount()==2){
-            FormAutor A = new FormAutor();
+            FormAutor A = new FormAutor();//ta
             A.setVisible(true);
             }
     }//GEN-LAST:event_CBXAutorMouseClicked
@@ -378,17 +379,18 @@ public class FromLibro extends javax.swing.JFrame {
 
     private void AddLibroJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddLibroJBUTTONActionPerformed
         try {
-            Biblioteca B= (Biblioteca) CBXBiblioteca.getSelectedItem();
-            Autor A=(Autor)CBXAutor.getSelectedItem();
-            Categoria C=(Categoria) CBXCategoria.getSelectedItem();
-            Libros L = new Libros();
-            L.setTitulo(TextoTitulo.getText());
-            L.setPrecio(Double.parseDouble(TextoPrecio.getText()));
-            L.setIdBiblioteca(B.getIdBiblioteca());
-            L.setIdAutor(A.getIdAutor());
-            L.setIdCategoria(C.getIdCategoria());
-            L.Insertar_Libro();
-            this.mostrar(Tabla,"Select * From libro ");
+            Biblioteca B= (Biblioteca) CBXBiblioteca.getSelectedItem();//Ta
+            Autor A=(Autor)CBXAutor.getSelectedItem();//Ta
+            Categoria C=(Categoria) CBXCategoria.getSelectedItem();//Ta
+            Libros L = new Libros();//Ta
+            L.setTitulo(TextoTitulo.getText());//Ta
+            L.setPrecio(Double.parseDouble(TextoPrecio.getText()));//Ta
+            L.setIdBiblioteca(B.getIdBiblioteca());//Ta
+            L.setIdAutor(A.getIdAutor());//Ta
+            L.setIdCategoria(C.getIdCategoria());//Ta
+            L.Insertar_Libro();//4Ta+To
+            this.mostrar(Tabla,"Select * From libro ");//2Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
+            //15Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -397,8 +399,9 @@ public class FromLibro extends javax.swing.JFrame {
 
     private void CBXCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXCategoriaMouseClicked
            if(evt.getClickCount()==2){
-            FormCategoria B = new FormCategoria();
+            FormCategoria B = new FormCategoria();//Ta
             B.setVisible(true);
+            //Ta
             }        // TODO add your handling code here:
     }//GEN-LAST:event_CBXCategoriaMouseClicked
 
@@ -410,9 +413,10 @@ public class FromLibro extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             Libros L = new Libros();
-            L.setLibrosID(Integer.parseInt(LabelID.getText()));
-            L.Eliminar_Libro();
-            this.mostrar(Tabla,"Select * From libro ");
+            L.setLibrosID(Integer.parseInt(LabelID.getText()));//Ta
+            L.Eliminar_Libro();//4Ta
+            this.mostrar(Tabla,"Select * From libro ");// 2Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
+            // 7Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -429,14 +433,15 @@ public class FromLibro extends javax.swing.JFrame {
 
     private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
         // TODO add your handling code here:
-        mouseclick();
+        mouseclick();//4Ta
     }//GEN-LAST:event_TablaMouseClicked
 
     private void ClearJBUTTON1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearJBUTTON1ActionPerformed
         // TODO add your handling code here:
-        TextoPrecio.setText("");
-        TextoTitulo.setText("");
-        LabelID.setText("");
+        TextoPrecio.setText("");//Ta
+        TextoTitulo.setText("");//Ta
+        LabelID.setText("");//Ta
+        //3Ta
     }//GEN-LAST:event_ClearJBUTTON1ActionPerformed
 
     private void MenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuActionPerformed
@@ -445,10 +450,11 @@ public class FromLibro extends javax.swing.JFrame {
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_MenuActionPerformed
  private void mouseclick(){
-     int fila= Tabla.getSelectedRow();
-     LabelID.setText(Tabla.getModel().getValueAt(fila, 0).toString());
-     TextoTitulo.setText(Tabla.getModel().getValueAt(fila, 1).toString());
-     TextoPrecio.setText(Tabla.getModel().getValueAt(fila, 2).toString());
+     int fila= Tabla.getSelectedRow();//Ta
+     LabelID.setText(Tabla.getModel().getValueAt(fila, 0).toString());//Ta
+     TextoTitulo.setText(Tabla.getModel().getValueAt(fila, 1).toString());//Ta
+     TextoPrecio.setText(Tabla.getModel().getValueAt(fila, 2).toString());//Ta
+     //4Ta
  }
     private void mostrar(javax.swing.JTable JT, String sql) {
         try {
