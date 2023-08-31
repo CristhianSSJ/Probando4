@@ -22,38 +22,56 @@ public class FromLibro extends javax.swing.JFrame {
         }
     }
     public void LlenarCBXBiblioteca(JComboBox JB) throws Exception{
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        JB.setModel(modelo);
-        Biblioteca B = new Biblioteca();
-        ArrayList<Biblioteca> ListaB = B.bibliotecaVista();
-        CBXBiblioteca.removeAllItems();
-        for (int i = 0; i < ListaB.size(); i++) {
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();//Ta
+        JB.setModel(modelo);//Ta
+        Biblioteca B = new Biblioteca();//Ta
+        ArrayList<Biblioteca> ListaB = B.bibliotecaVista();//TA
+        CBXBiblioteca.removeAllItems();//Ta
+        for (int i = 0; i < ListaB.size(); i++) {//Ta*n
             modelo.addElement(ListaB.get(i));
         }
         JB.setModel(modelo);
     }
     public void LllenarCBXAutor(JComboBox JA) throws Exception{
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        JA.setModel(modelo);
-        Autor A= new Autor();
-        ArrayList<Autor>ListaA=A.AutorVista();
-        CBXAutor.removeAllItems();
-        for (int i = 0; i < ListaA.size(); i++) {
-            modelo.addElement(ListaA.get(i));
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();//Ta
+        JA.setModel(modelo);//Ta
+        Autor A= new Autor();//Ta
+        ArrayList<Autor>ListaA=A.AutorVista();//Ta
+        CBXAutor.removeAllItems();//Ta
+        for (int i = 0; i < ListaA.size(); i++) {//Ta+n(2Ta+Tc+To)
+            modelo.addElement(ListaA.get(i));//Ta
             System.out.println(ListaA.get(i).toString());
         }
-       JA.setModel(modelo);
+       JA.setModel(modelo);//ta
+       /*
+       Tiempo Peor Esperado
+       8Ta+n(2Ta+Tc+To)
+       Tiempo Mejor esperado
+       8Ta+2Ta+Tc+To
+       Tiempo Esperado
+       8Ta+n(2Ta+Tc+To)-[8Ta+2Ta+Tc+To]=n(2Ta+Tc+To)-2Ta+Tc+To
+       n(2Ta+Tc+To)-2Ta+Tc+To
+       */
     }
     public void LlenarCBXCategoria(JComboBox JC) throws Exception {
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        JC.setModel(modelo);
-        Categoria C =new Categoria();
-        ArrayList<Categoria>ListaC=C.CategoriaVista();
-        CBXCategoria.setModel(modelo);
-        for (int i = 0; i < ListaC.size(); i++) {
-            modelo.addElement(ListaC.get(i));
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();//Ta
+        JC.setModel(modelo);//Ta
+        Categoria C =new Categoria();//Ta
+        ArrayList<Categoria>ListaC=C.CategoriaVista();//Ta
+        CBXCategoria.setModel(modelo);//Ta
+        for (int i = 0; i < ListaC.size(); i++) {//Ta+n*Tc+N(Ta+To)
+            modelo.addElement(ListaC.get(i));//Ta
         }
-        JC.setModel(modelo);
+        JC.setModel(modelo);//Ta
+        /*
+        Tiempo Peor Esperado
+        8Ta+n*Tc+N(Ta+To)
+        Tiempo Mejor Esperado
+        8Ta+Tc+Ta+To
+        Tiempo Esperado
+        8Ta+n*Tc+N(Ta+To)-[8Ta+Tc+Ta+To]=n*Tc+N(Ta+To)-Tc-Ta-To
+        
+        */
     }
  
     @SuppressWarnings("unchecked")
@@ -305,18 +323,18 @@ public class FromLibro extends javax.swing.JFrame {
     private void UpdtLibroJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdtLibroJBUTTONActionPerformed
         // TODO add your handling code here:
           try {
-            Biblioteca B= (Biblioteca) CBXBiblioteca.getSelectedItem();
-            Autor A=(Autor)CBXAutor.getSelectedItem();
-            Categoria C=(Categoria) CBXCategoria.getSelectedItem();
-            Libros L = new Libros();
+            Biblioteca B= (Biblioteca) CBXBiblioteca.getSelectedItem();//Ta
+            Autor A=(Autor)CBXAutor.getSelectedItem();//Ta
+            Categoria C=(Categoria) CBXCategoria.getSelectedItem();//Ta
+            Libros L = new Libros();//Ta
             
-            L.setTitulo(TextoTitulo.getText());
-            L.setPrecio(Double.parseDouble(TextoPrecio.getText()));
-            L.setIdBiblioteca(B.getIdBiblioteca());
-            L.setIdAutor(A.getIdAutor());
-            L.setIdCategoria(C.getIdCategoria());
-            L.setLibrosID(Integer.parseInt(LabelID.getText()));
-            L.Actualizar_Libro();
+            L.setTitulo(TextoTitulo.getText());//Ta
+            L.setPrecio(Double.parseDouble(TextoPrecio.getText()));//Ta
+            L.setIdBiblioteca(B.getIdBiblioteca());//Ta
+            L.setIdAutor(A.getIdAutor());//Ta
+            L.setIdCategoria(C.getIdCategoria());//Ta
+            L.setLibrosID(Integer.parseInt(LabelID.getText()));//Ta
+            L.Actualizar_Libro();//4Ta
             this.mostrar(Tabla,"Select * From libro ");
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
@@ -434,25 +452,40 @@ public class FromLibro extends javax.swing.JFrame {
  }
     private void mostrar(javax.swing.JTable JT, String sql) {
         try {
-            Clientes cb = new Clientes();
+            Clientes cb = new Clientes();//Ta
             ResultSet rs;
-            DefaultTableModel modelo = new DefaultTableModel();
-            JT.setModel(modelo);
-            rs = cb.consultaTabla(sql);
+            DefaultTableModel modelo = new DefaultTableModel();//Ta
+            JT.setModel(modelo);//Ta
+            rs = cb.consultaTabla(sql);//Ta
             ResultSetMetaData rsMd;
-            rsMd = rs.getMetaData();
-            int cantcolumnas = rsMd.getColumnCount();
-            for (int i = 1; i <= cantcolumnas; i++) {
-                modelo.addColumn(rsMd.getColumnLabel(i));
+            rsMd = rs.getMetaData();//Ta
+            int cantcolumnas = rsMd.getColumnCount();//Ta
+            //6Ta
+            for (int i = 1; i <= cantcolumnas; i++) {//Ta+N(Tc+To+Ta)
+                modelo.addColumn(rsMd.getColumnLabel(i));//Ta
             }
-            while (rs.next()) {
-                Object[] columna = new Object[cantcolumnas];
-                for (int i = 0; i < cantcolumnas; i++) {
-                    columna[i] = rs.getObject(i + 1);
+            while (rs.next()) {//n*Tc
+                Object[] columna = new Object[cantcolumnas];//Ta
+                for (int i = 0; i < cantcolumnas; i++) {//Ta+n(Tc+To+Ta)
+                    columna[i] = rs.getObject(i + 1);//n(Ta+To)
                 }
-                modelo.addRow(columna);
+                modelo.addRow(columna);//n*Ta
             }
+            
+            /*
+            Tiempo Peor esperado
 
+            9Ta+Ta+N(Tc+To+Ta)+n*Tc+n(Tc+To+Ta)+n(Ta+To)+n*Ta
+            10Ta + N*(Tc + To + Ta) + n*(2Tc + 2To + 2Ta) + n*Ta
+            Tiempo Mejor esperado
+            6Ta+Ta+Tc+To+Ta+Ta+2Tc
+            9Ta+To+2Tc
+            Tiempo Esperado
+            10Ta + N*(Tc + To + Ta) + n*(2Tc + 2To + 2Ta) + n*Ta-[ 9Ta+To+2Tc]
+            Ta+N*(Tc + To + Ta) + n*(2Tc + 2To + 2Ta)-To-2Tc]
+            despues de distribuir agrupar y simplificar terminos queda
+            2Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
+            */
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error" + e.toString());
         }

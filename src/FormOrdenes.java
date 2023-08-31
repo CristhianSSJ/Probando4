@@ -52,15 +52,23 @@ public class FormOrdenes extends javax.swing.JFrame {
     }
 
     public void LLBC(JComboBox JJ) throws Exception {
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        JJ.setModel(modelo);
-        Clientes C = new Clientes();
-        ArrayList<Clientes> ListaC = C.Consulta();
-        CBXCliente.removeAllItems();
-        for (int i = 0; i < ListaC.size(); i++) {
-            modelo.addElement(ListaC.get(i));
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();//Ta
+        JJ.setModel(modelo);//ta
+        Clientes C = new Clientes();//ta
+        ArrayList<Clientes> ListaC = C.Consulta();//ta
+        CBXCliente.removeAllItems();//ta
+        for (int i = 0; i < ListaC.size(); i++) {//ta+n(ta+tc+to)
+            modelo.addElement(ListaC.get(i));//ta
         }
-        JJ.setModel(modelo);
+        JJ.setModel(modelo);//ta
+        /*
+        Tiempo Peor Esperado
+        
+        Tiempo Mejor Esperado
+        
+        Tiempo Esperado
+        
+        */
     }
 
     public void LLLL(JComboBox LL) throws Exception {

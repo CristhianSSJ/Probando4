@@ -57,7 +57,7 @@ public class AccesoBD {
     }
     }
 
-    public ResultSet ConsultaBD(String sql) throws SQLException {
+        public ResultSet ConsultaBD(String sql) throws SQLException {
         ResultSet Cursor;
         Statement stm = conexion.createStatement();//Ta
         Cursor = stm.executeQuery(sql);//Ta

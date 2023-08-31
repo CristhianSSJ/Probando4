@@ -79,18 +79,18 @@ int idBiblioteca,idCategoria,idAutor;
         int inc;
         ResultSet rs;
         rs = BD.ConsultaBD("SELECT max(LibroID) as num FROM Libro;");//Ta+2Ta
-        if (rs.next()) {
+        if (rs.next()) {//tc
             inc = rs.getInt(1) + 1;//To+Ta
         } else {
             inc = 1;//Ta
         }
         return inc;
         /*Tiempo Peor Esperado
-        Ta+2Ta+To+Ta=4Ta+To
+        Ta+2Ta+Tc+To+Ta=4Ta+Tc+To
         Tiempo mejor esperado
-        3Ta
+        Ta+2Ta+Tc+Ta=4Ta+Tc
         Tiempo esperado
-        Ta+To
+        To
         */
     }
 
@@ -98,8 +98,8 @@ int idBiblioteca,idCategoria,idAutor;
         String cadena = "insert into libro values('" + Incremento_Libro() +  "','" + getTitulo() + "','" + getPrecio()+ "','" + getIdBiblioteca()+ "','" + getIdCategoria()+ "','" + getIdAutor()+ "')";
         //ta+ta+to
         BD.ActualizarBD(cadena);//2Ta
-        /*Tiempo peor esperado
-        Ta+ta+to+2Ta
+        /*Tiempo
+        Ta+Ta+To+2Ta=4Ta+To
         */
     }
 
@@ -171,46 +171,69 @@ int idBiblioteca,idCategoria,idAutor;
         */
     }
       public ArrayList<Libros> VistaEspecial(String sql) throws SQLException, Exception {
-        ArrayList<Libros> Lista= new ArrayList<>();
+        ArrayList<Libros> Lista= new ArrayList<>();//Ta
         ResultSet rs;
-        rs = BD.ConsultaBD(sql);
-        while (rs.next()) {
-            Libros SAUX = new Libros();
-            SAUX.setLibrosID(rs.getInt("LibroID"));
-            SAUX.setTitulo(rs.getString("Titulo"));
-            SAUX.setPrecio(rs.getDouble("Precio"));
-            SAUX.setIdBiblioteca(rs.getInt("idBiblioteca"));
-            SAUX.setIdCategoria(rs.getInt("idCategoria"));
-            SAUX.setIdAutor(rs.getInt("idAutor"));
-            Lista.add(SAUX);
+        rs = BD.ConsultaBD(sql);//Ta+2Ta
+        while (rs.next()) {//n*Tc
+            Libros SAUX = new Libros();//n*Ta
+            SAUX.setLibrosID(rs.getInt("LibroID"));//n*Ta
+            SAUX.setTitulo(rs.getString("Titulo"));//n*Ta
+            SAUX.setPrecio(rs.getDouble("Precio"));//n*Ta
+            SAUX.setIdBiblioteca(rs.getInt("idBiblioteca"));//n*Ta
+            SAUX.setIdCategoria(rs.getInt("idCategoria"));//n*Ta
+            SAUX.setIdAutor(rs.getInt("idAutor"));//n*Ta
+            Lista.add(SAUX);//n*Ta
         }
         return Lista;
-    }
+        /*Tiempo Peor Esperado
+        Ta+Ta+2Ta+n(Tc+8Ta)=4Ta+n(Tc+8Ta)
+        Tiempo Mejor esperado
+        Ta+Ta+2Ta+Tc=4Ta+Tc
+        Tiempo mejor esperado
+        4Ta+n(Tc+8Ta)-(4Ta+Tc)=n(Tc+8Ta)-tc
+        */ 
+      }
  public ArrayList<Categoria> VistaEspecial(int idb) throws SQLException, Exception {
-        ArrayList<Categoria> Lista = new ArrayList<>();
+        ArrayList<Categoria> Lista = new ArrayList<>();//Ta
         ResultSet rs;
-        rs = BD.ConsultaBD("SELECT * FROM Categoria INNER JOIN libro ON Categoria.idCategoria= libro.idCategoria WHERE libro.LibroID="+ idb);
-        while (rs.next()) {
-            Categoria SAUX = new Categoria();
-            SAUX.setIdCategoria(rs.getInt("idCategoria"));
-            SAUX.setCategoria(rs.getString("Categoriacol"));
-            Lista.add(SAUX);
+        rs = BD.ConsultaBD("SELECT * FROM Categoria INNER JOIN libro ON Categoria.idCategoria= libro.idCategoria WHERE libro.LibroID="+ idb);//3Ta
+        while (rs.next()) {//n*Tc
+            Categoria SAUX = new Categoria();//n*Ta
+            SAUX.setIdCategoria(rs.getInt("idCategoria"));//n*Ta
+            SAUX.setCategoria(rs.getString("Categoriacol"));//n*Ta
+            Lista.add(SAUX);//n*Ta
         }
+        /*
+        Tiempo peor esperado
+        Ta+3Ta+n(tc+4ta)=4Ta+n(tc+4Ta)
+        Tiempo mejor esperado 
+        4Ta+tc
+        Tiempo Esperado
+        4Ta+n(tc+4Ta)-(4Ta+Tc)=n(tc+4Ta)-tc
+        */
         return Lista;
     }
  
  public ArrayList<Autor> VSTE(int idb) throws SQLException, Exception {
-        ArrayList<Autor> Lista = new ArrayList<>();
+        ArrayList<Autor> Lista = new ArrayList<>();//Ta
         ResultSet rs;
-        rs = BD.ConsultaBD("SELECT * FROM autor INNER JOIN libro ON autor.idAutor= libro.idAutor WHERE libro.LibroID="+ idb);
-        while (rs.next()) {
-            Autor SAUX = new Autor();
-            SAUX.setIdAutor(rs.getInt("idAutor"));
-            SAUX.setNombreA(rs.getString("NombreAutor"));
-            SAUX.setApellidoA(rs.getString("ApellidoAutor"));
-            Lista.add(SAUX);
+        rs = BD.ConsultaBD("SELECT * FROM autor INNER JOIN libro ON autor.idAutor= libro.idAutor WHERE libro.LibroID="+ idb);//3Ta
+        while (rs.next()) {//n*tc
+            Autor SAUX = new Autor();//n*Ta
+            SAUX.setIdAutor(rs.getInt("idAutor"));//n*Ta
+            SAUX.setNombreA(rs.getString("NombreAutor"));//n*Ta
+            SAUX.setApellidoA(rs.getString("ApellidoAutor"));//n*Ta
+            Lista.add(SAUX);//n*Ta
         }
         return Lista;
+        /*
+        Tiempo peor esperado
+        4Ta+n(tc+5Ta)
+        Tiempo Mejor esperado
+        4Ta+Tc
+        Tiempo Esperado
+        4Ta+n(tc+5Ta)-(4Ta+Tc)= n(tc+5Ta)-Tc
+        */
     }
     @Override
     public String toString() {
