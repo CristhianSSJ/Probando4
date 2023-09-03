@@ -12,7 +12,7 @@ public class Clientes {
 
     // Constructor de la clase Clientes
     public Clientes() throws Exception {
-        BD = new AccesoBD("localhost", "root", "Ayuda", "proyecto");
+        BD = new AccesoBD("localhost", "root", "oralys2001", "proyecto");
         BD.ConectaBD();// Establecer la conexión a la base de datos
     }
 // Métodos para obtener y establecer la cédula del cliente

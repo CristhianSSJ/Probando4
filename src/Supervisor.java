@@ -104,7 +104,7 @@ String cadena = "update supervisor set Nombre='" + getNombre()+ "', Cedula='"+ge
     public void Consultar_OSupersvisor() throws SQLException {
         ResultSet rs;
         rs = BD.ConsultaBD("select * from Supersvisor"); //2TA + TA = 3TA
-        while (rs.next()) { //N x TC
+        while (rs.next()) { //N x TC + TC
             System.out.print(rs.getInt(1) + " ");
             System.out.print(rs.getString(2) + " ");
             System.out.print(rs.getString(3) + " ");
@@ -112,28 +112,31 @@ String cadena = "update supervisor set Nombre='" + getNombre()+ "', Cedula='"+ge
             System.out.print(rs.getString(5) + " ");
             System.out.print(rs.getString(6) + " ");
             System.out.println("");
-        } //3TA + N x TC.
-    }
+        } //3TA + N x TC + TC ----- TIEMPO PEOR ESPERADO
+          //3TA            TC ----- TIEMPO MEJOR ESPERADO
+    }     // ________________ 
+          //      N*TC        ----- TIEMPO ESPERADO
 
     public ArrayList<Supervisor> SupervisorVista() throws SQLException, Exception {
         ArrayList<Supervisor> Lista= new ArrayList<>(); //TA
         ResultSet rs;
         rs = BD.ConsultaBD("Select * from Supervisor"); //2TA + TA + TA = 4TA
-        while (rs.next()) {  //N x TC
+        while (rs.next()) {  //N x TC + TC
             Supervisor SAUX = new Supervisor();  //N x TA
             SAUX.setIdSupersvisor(rs.getInt("idSupervisor")); //N x TA
-            SAUX.setNombre(rs.getString("Nombre")); //N x TA
+            SAUX.setNombre(rs.getString("Nombre")); //N x TA        while (rs.next()) {  //N x TC + TC
+
             SAUX.setApellido(rs.getString("Apellido"));//N x TA
             SAUX.setCedula(rs.getString("Cedula"));   //N x TA
             Lista.add(SAUX); //N x TA
         }
         return Lista;
-    }     //     4TA 
+    }     //     5TA 
           // N x  TC
-          // N x  6TA ----> =  N x 10TA + TC |PEOR TIEMPO ESPERADO| 
+          // N x  6TA ----> 5TA + N x 10TA + N*TC+ TC |PEOR TIEMPO ESPERADO| 
     /*
-     4TA + TC  | TIEMPO MEJOR ESPERADO|
-     N x 10TA + TC - (4TA + TC) =  N x 6TA + TC.
+     5TA + TC  | TIEMPO MEJOR ESPERADO|
+     N x 10TA + TC - (4TA + TC) =  N x 10 TA + TC.     TIEMPO ESPERADO 
 
     */
         public int obtenerIDPorCedula(String titulo) throws SQLException {
