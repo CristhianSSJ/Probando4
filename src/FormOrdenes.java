@@ -1,4 +1,4 @@
-
+ 
 import java.awt.event.ItemEvent;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -11,20 +11,10 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author nahin
- */
+//ORALYS
 public class FormOrdenes extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FormOrdenes
-     */
+ 
     public FormOrdenes() throws Exception {
         initComponents();
         LLBC(CBXCliente);
@@ -35,46 +25,61 @@ public class FormOrdenes extends javax.swing.JFrame {
     }
 
     public void LlenarLibros(JComboBox Lb) throws Exception {
-        DefaultComboBoxModel AAA = new DefaultComboBoxModel();
-        Lb.setModel(AAA);
-        Libros L = new Libros();
-        ArrayList<Libros> ListaL = L.LibrosVista();
-        CBXLibro.removeAllItems();
-        System.out.println(ListaL.size());
-        for (int i = 0; i < ListaL.size(); i++) {
-            AAA.addElement(ListaL.get(i));
+        DefaultComboBoxModel AAA = new DefaultComboBoxModel(); //TA
+        Lb.setModel(AAA); 
+        Libros L = new Libros();                              //TA
+        ArrayList<Libros> ListaL = L.LibrosVista();           //TA
+        CBXLibro.removeAllItems();                            //TA 
+        System.out.println(ListaL.size());                    
+        for (int i = 0; i < ListaL.size(); i++) {             // N * TA + N*TC + N*TO
+            AAA.addElement(ListaL.get(i));                    
             System.out.println(ListaL.get(i));
             System.out.println(ListaL.get(i).getIdAutor());
             System.out.println(ListaL.get(i).getTitulo());
 
         }
-        CBXLibro.setModel(AAA);
-    }
-
+        CBXLibro.setModel(AAA);                               //TA 
+        
+    }   // 5TA + N * TA + N*TC + N*TO      TIEMPO PEOR ESPERADO 
+        // 6TA          +   TC +   TO      TIEMPO MEJOR ESPERADO 
+        //____________________________
+        // -TA + N * TA + N*TC + N*TO - TC -TO         TIEMPO ESPERADO
+    
     public void LLBC(JComboBox JJ) throws Exception {
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        JJ.setModel(modelo);
-        Clientes C = new Clientes();
-        ArrayList<Clientes> ListaC = C.Consulta();
-        CBXCliente.removeAllItems();
-        for (int i = 0; i < ListaC.size(); i++) {
-            modelo.addElement(ListaC.get(i));
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();   //TA
+        JJ.setModel(modelo);          //TA
+        Clientes C = new Clientes();  //TA 
+        ArrayList<Clientes> ListaC = C.Consulta();  //TA
+        CBXCliente.removeAllItems();                //TA
+        for (int i = 0; i < ListaC.size(); i++) {   //N*TA + N*TC + N*TO
+            modelo.addElement(ListaC.get(i));       //TA
         }
-        JJ.setModel(modelo);
+        JJ.setModel(modelo);//ta
+        /*
+        6TA + N*TA + N*TC +  N*TO    -------- Tiempo Peor Esperado
+       - 2TA +          TC +    TO            Tiempo Mejor Esperado
+      ________________________________
+         4TA -TC - TO + N*TA + N*TC +  N*TO     Tiempo Esperado
+        
+        */
     }
 
     public void LLLL(JComboBox LL) throws Exception {
 
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        LL.setModel(modelo);
-        Biblioteca S = new Biblioteca();
-        ArrayList<Biblioteca> ListaS = S.bibliotecaVista();
-        CBXBi.removeAllItems();
-        for (int i = 0; i < ListaS.size(); i++) {
-            modelo.addElement(ListaS.get(i));
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel(); //TA
+        LL.setModel(modelo);                                      //TA
+        Biblioteca S = new Biblioteca();                          //TA
+        ArrayList<Biblioteca> ListaS = S.bibliotecaVista();       //TA
+        CBXBi.removeAllItems();                                   //TA
+        for (int i = 0; i < ListaS.size(); i++) {            //N*TA + N*TC + N*TO
+            modelo.addElement(ListaS.get(i));                //TA
         }
-        LL.setModel(modelo);
-    }
+        LL.setModel(modelo);                                 //TA
+    }  // 7TA + N*TA + N*TC + N*TO     ----TIEMPO PEOR ESPERADO
+       // 8TA +   TC +          TO     ----TIEMPOR MEJOR ESPERADO
+       //__________________________
+       // -TA +   TC +          TO     ----> TIEMPO ESPERADO.
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -361,147 +366,173 @@ public class FormOrdenes extends javax.swing.JFrame {
     }//GEN-LAST:event_CBXBiActionPerformed
 
     private void CBXBiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBXBiItemStateChanged
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
+        if (evt.getStateChange() == ItemEvent.SELECTED) {          // TC
             try {
-                //            SELECT * FROM supervisor INNER JOIN biblioteca ON supervisor.idSupervisor = biblioteca.idSupervisor WHERE biblioteca.idBiblioteca = + 1;
-                Biblioteca b = (Biblioteca) CBXBi.getSelectedItem();
-                int idb = b.getIdBiblioteca();
-                LLenarSuper(CBXSupervisor, idb);
+    //SELECT * FROM supervisor INNER JOIN biblioteca ON supervisor.idSupervisor = biblioteca.idSupervisor WHERE biblioteca.idBiblioteca = + 1;
+                Biblioteca b = (Biblioteca) CBXBi.getSelectedItem();   //TA
+                int idb = b.getIdBiblioteca();                          //TA
+                LLenarSuper(CBXSupervisor, idb);                       // -TA + N*TA +N*TC + N*TO - TC - TO 
             } catch (Exception ex) {
                 Logger.getLogger(FormOrdenes.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_CBXBiItemStateChanged
-
+    //2TA + TC -TA + N*TA +N*TC + N*TO - TC - TO   =   TIEMPO PEOR ESPERADO 
+    //    - TC                                     =   TIEMPO MEJOR ESPERADO
+    //____________________________________________
+    //-TA - TC + N*TA +N*TC + N*TO - TO            =   TIEMPO ESPERADO.
     private void CBXLibroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXLibroMouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
-            FromLibro l = new FromLibro();
-            l.setVisible(true);
+        if (evt.getClickCount() == 2) {  //TC
+            FromLibro l = new FromLibro();  //TA
+            l.setVisible(true);            //TA
         }
     }//GEN-LAST:event_CBXLibroMouseClicked
-
+           //TC + TA + TA  =    2TA +TC ---- TIEMPO PEOR ESPERADO
+           //-TC                         ---- TIEMPO MEJOR ESPERADO
+           //____________ 
+           //     2TA
     private void CBXClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXClienteMouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) { //TC
 
-            FormCliente B = new FormCliente();
-            B.setVisible(true);
+            FormCliente B = new FormCliente(); //TA
+            B.setVisible(true);                //TA
 
         }
     }//GEN-LAST:event_CBXClienteMouseClicked
-
+                              
+           //TC + TA + TA  =    2TA +TC ---- TIEMPO PEOR ESPERADO
+           //-TC                         ---- TIEMPO MEJOR ESPERADO
+           //____________ 
+           //     2TA
+    
     private void CBXBiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXBiMouseClicked
-        if (evt.getClickCount() == 2) {
-
-            FromBiblioteca B = new FromBiblioteca();
-            B.setVisible(true);
-
-        }        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {      //TC
+            FromBiblioteca B = new FromBiblioteca(); //TA
+            B.setVisible(true);                      //TA 
+       }        // TODO add your handling code here:
     }//GEN-LAST:event_CBXBiMouseClicked
-
+                                         
+           //TC + TA + TA  =    2TA +TC ---- TIEMPO PEOR ESPERADO
+           //-TC                         ---- TIEMPO MEJOR ESPERADO
+           //____________ 
+           //     2TA
     private void CBXSupervisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXSupervisorMouseClicked
-        if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) { //TC
 
-            FormSupervisor B = new FormSupervisor();
-            B.setVisible(true);
-
+            FormSupervisor B = new FormSupervisor();  //TA
+            B.setVisible(true);                       //TA
+                                         
+           //TC + TA + TA  =    2TA +TC ---- TIEMPO PEOR ESPERADO
+           //-TC                         ---- TIEMPO MEJOR ESPERADO
+           //____________ 
+           //     2TA
         }        // TODO add your handling code here:
     }//GEN-LAST:event_CBXSupervisorMouseClicked
 
     private void CBXLibroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBXLibroItemStateChanged
         try {
             // TODO add your handlin
-            Libros l = (Libros) CBXLibro.getSelectedItem();
-            double A= l.getPrecio();
-                    TextoPrecio.setText(String.valueOf(A));
-                    ArrayList<Categoria> AAA=l.VistaEspecial(l.getIdAutor());
-                    ArrayList<Autor>LLL=l.VSTE(l.getLibrosID());
-                    String AA=AAA.get(0).getCategoria();
-                    TextoAutor.setText(LLL.get(0).toString());
-                    TextoCategoria.setText(AA);
+            Libros l = (Libros) CBXLibro.getSelectedItem();   //TA
+            double A= l.getPrecio();                          //TA
+                    TextoPrecio.setText(String.valueOf(A));   //TA
+                    ArrayList<Categoria> AAA=l.VistaEspecial(l.getIdAutor());   //TA
+                    ArrayList<Autor>LLL=l.VSTE(l.getLibrosID());                //TA
+                    String AA=AAA.get(0).getCategoria();                        //TA
+                    TextoAutor.setText(LLL.get(0).toString());                  //TA
+                    TextoCategoria.setText(AA);                                 //TA
         } catch (Exception ex) {
             Logger.getLogger(FormOrdenes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_CBXLibroItemStateChanged
-
+        //8TA
     private void ConsulLibroJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsulLibroJBUTTONActionPerformed
         this.mostrar(Tabla, "SELECT ordenes.OrdenesID, clientes.ClienteID,clientes.Nombre AS Cliente, libro.LibroID  , libro.Titulo AS Libro, ordenes.Fecha_de_Orden AS Fecha FROM ordenes "
                 + "INNER JOIN clientes ON ordenes.ClientesID = clientes.ClienteID"
                 + " INNER JOIN libro ON ordenes.LibroID = libro.LibroID;");
     }//GEN-LAST:event_ConsulLibroJBUTTONActionPerformed
-
+     // 9TA - TO - TC + N*4TA + N*2TC + N*TO 
+    
     private void EliminarLibroJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarLibroJBUTTONActionPerformed
         try {
-            Ordenes o = new Ordenes();
+            Ordenes o = new Ordenes();                          //TA
             
-            o.setOrdenID(Integer.parseInt(TextoIDo.getText()));
-            o.Eliminar_Ordenes();
+            o.setOrdenID(Integer.parseInt(TextoIDo.getText()));  //TA
+            o.Eliminar_Ordenes();                                //3TA
 //            this.mostrar(Tabla,"Select * From libro ");
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        // 2TA + 3TA = 5TA
     }//GEN-LAST:event_EliminarLibroJBUTTONActionPerformed
 
     private void UpdtLibroJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdtLibroJBUTTONActionPerformed
         // TODO add your handling code here:
         try {
-            Ordenes o = new Ordenes();
-            Libros l = (Libros)CBXLibro.getSelectedItem();
-            Clientes c = (Clientes)CBXCliente.getSelectedItem();
-            o.setOrdenID(Integer.parseInt(TextoIDo.getText()));
-            o.setClienteID(c.getClienteID());
-            o.setLibroID(l.getLibrosID());
-            o.setFechaDeOrden(LocalDate.now());
-            o.Actualizar_Ordenes();
+            Ordenes o = new Ordenes();                             //TA
+            Libros l = (Libros)CBXLibro.getSelectedItem();          //TA
+            Clientes c = (Clientes)CBXCliente.getSelectedItem();    //TA
+            o.setOrdenID(Integer.parseInt(TextoIDo.getText()));      //TA
+            o.setClienteID(c.getClienteID());                        //TA
+            o.setLibroID(l.getLibrosID());                            //TA
+            o.setFechaDeOrden(LocalDate.now());                       //TA
+            o.Actualizar_Ordenes();                                  //3TA
             
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_UpdtLibroJBUTTONActionPerformed
-
+          //7TA + 3TA --------> 10 TA
     private void AddLibroJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddLibroJBUTTONActionPerformed
         try {
-            Clientes S = (Clientes) CBXCliente.getSelectedItem();
-            Libros L= (Libros) CBXLibro.getSelectedItem();
+            Clientes S = (Clientes) CBXCliente.getSelectedItem();        //TA
+            Libros L= (Libros) CBXLibro.getSelectedItem();               //TA
             
-            Ordenes O = new Ordenes();
-            O.setClienteID(S.getClienteID());
-            O.setLibroID(L.getLibrosID());
-            O.Insertar_Ordenes( );
-//            this.mostrar(Tabla,"Select * From libro ");
+            Ordenes O = new Ordenes();                                   //TA
+            O.setClienteID(S.getClienteID());                            //TA
+            O.setLibroID(L.getLibrosID());                               //TA
+            O.Insertar_Ordenes( );                             //4TA + TC +  TO
+//            this.mostrar(Tabla,"Select * From libro ");        
+                                                               //5TA 
+                                                               //4TA + TC +  TO = 9TA + TC +  TO
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+       
     }//GEN-LAST:event_AddLibroJBUTTONActionPerformed
-   private void mostrar   (javax.swing.JTable JT, String sql) {
+   //9TA + TC +  TO
+    private void mostrar   (javax.swing.JTable JT, String sql) {
         try {
-            Clientes cb = new Clientes();
+            Clientes cb = new Clientes();                          //TA
             ResultSet rs;
-                DefaultTableModel modelo = new DefaultTableModel();
-            JT.setModel(modelo);
-            rs = cb.consultaTabla(sql);
+                DefaultTableModel modelo = new DefaultTableModel();  //TA
+            JT.setModel(modelo);                                    //TA
+            rs = cb.consultaTabla(sql);                              //2TA
             ResultSetMetaData rsMd;
-            rsMd = rs.getMetaData();
-            int cantcolumnas = rsMd.getColumnCount();
-            for (int i = 1; i <= cantcolumnas; i++) {
-                modelo.addColumn(rsMd.getColumnLabel(i));
+            rsMd = rs.getMetaData();                                 //TA
+            int cantcolumnas = rsMd.getColumnCount();                //TA
+            for (int i = 1; i <= cantcolumnas; i++) {       //TA + N*TA + N*TC + N*TO
+                modelo.addColumn(rsMd.getColumnLabel(i));           //N*TA
             }
-            while (rs.next()) {
-                Object[] columna = new Object[cantcolumnas];
-                for (int i = 0; i < cantcolumnas; i++) {
-                    columna[i] = rs.getObject(i + 1);
+            while (rs.next()) {                                   //N*TC + TC
+                Object[] columna = new Object[cantcolumnas];     //N*TA
+                for (int i = 0; i < cantcolumnas; i++) {       //N*2TA + N*TC + N*TO
+                    columna[i] = rs.getObject(i + 1);          //TA +TO
                 }
-                modelo.addRow(columna);
+                modelo.addRow(columna);                          //TA
             }
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error" + e.toString());
         }
     }
+   // 10TA + TO + TC + N*5TA + N*3TC + N*2TO    -----TIEMPO PEOR ESPERADO 
+   //   TA  +          N *TA + N* TC  + N* TO   ----- TIEMPO MEJOR ESPERADO
+   //_________________________________________
+   //  9TA - TO - TC + N*4TA + N*2TC + N*TO    ---->TIEMPO ESPERADO
+   
     private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
                     MouseClick();
             
@@ -510,25 +541,32 @@ public class FormOrdenes extends javax.swing.JFrame {
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
 
   FormPrueba P = new FormPrueba();
-        P.setVisible(true);
+        P.setVisible(true);     //TA
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_AtrasActionPerformed
-     private void MouseClick() {
-        int fila=Tabla.getSelectedRow();
-        TextoIDo.setText(Tabla.getModel().getValueAt(fila , 0).toString());
+     //----> TA
+    private void MouseClick() {
+        int fila=Tabla.getSelectedRow();                                    //TA
+        TextoIDo.setText(Tabla.getModel().getValueAt(fila , 0).toString()); //TA 
     }
+     //2TA
+    
     public void LLenarSuper(JComboBox JC, int IDB) throws Exception {
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        JC.setModel(modelo);
-        Biblioteca L = new Biblioteca();
-        ArrayList<Biblioteca> ListaL = L.VistaEspecial(IDB);
-        CBXSupervisor.removeAllItems();
-        for (int i = 0; i < ListaL.size(); i++) {
-            modelo.addElement(ListaL.get(i));
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel(); //TA   
+        JC.setModel(modelo);  //TA
+        Biblioteca L = new Biblioteca(); //TA
+        ArrayList<Biblioteca> ListaL = L.VistaEspecial(IDB); //TA
+        CBXSupervisor.removeAllItems(); //TA
+        for (int i = 0; i < ListaL.size(); i++) { //N*TA + N*TC + N*TO
+            modelo.addElement(ListaL.get(i));     //TA
         }
-        JC.setModel(modelo);
-    }
-
+        JC.setModel(modelo);                     //TA 
+    } 
+      // 7TA + N*TA + N*TC + N*TO               TIEMPO PEOR ESPERADO
+      // -8TA +       TC +     TO               TIEMPO MEJOR ESPERADO
+      //___________________________________
+      //  -TA + N*TA +N*TC + N*TO - TC - TO             TIEMPO ESPERADO.
+                 
     /**
      * @param args the command line arguments
      */
@@ -560,7 +598,7 @@ public class FormOrdenes extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new FormOrdenes().setVisible(true);
+                    new FormOrdenes().setVisible(true);     //TA
                 } catch (Exception ex) {
                     Logger.getLogger(FormOrdenes.class.getName()).log(Level.SEVERE, null, ex);
                 }

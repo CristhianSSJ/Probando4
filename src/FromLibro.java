@@ -14,46 +14,74 @@ public class FromLibro extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         try {
-            LllenarCBXAutor(CBXAutor);
-            LlenarCBXBiblioteca(CBXBiblioteca);
-            LlenarCBXCategoria(CBXCategoria);
+            LllenarCBXAutor(CBXAutor);//n(2Ta+Tc+To)-2Ta+Tc+To
+            LlenarCBXBiblioteca(CBXBiblioteca);//-Ta+n*(2Ta+Tc+To)-Tc-To
+            LlenarCBXCategoria(CBXCategoria);//n*Tc+N(Ta+To)-Tc-Ta-To
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public void LlenarCBXBiblioteca(JComboBox JB) throws Exception{
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        JB.setModel(modelo);
-        Biblioteca B = new Biblioteca();
-        ArrayList<Biblioteca> ListaB = B.bibliotecaVista();
-        CBXBiblioteca.removeAllItems();
-        for (int i = 0; i < ListaB.size(); i++) {
-            modelo.addElement(ListaB.get(i));
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();//Ta
+        JB.setModel(modelo);//Ta
+        Biblioteca B = new Biblioteca();//Ta
+        ArrayList<Biblioteca> ListaB = B.bibliotecaVista();//TA
+        CBXBiblioteca.removeAllItems();//Ta
+        for (int i = 0; i < ListaB.size(); i++) {//n*(Ta+Tc+To)
+            modelo.addElement(ListaB.get(i));//n*Ta
         }
-        JB.setModel(modelo);
+        JB.setModel(modelo);//Ta
+        /*
+        Tiempo Peor Esperado
+        6Ta+n*Ta+n*(Ta+Tc+To)
+        6Ta+n*(2Ta+Tc+To)
+        Tiempo Mejor Esperado
+        7Ta+Tc+To
+        Tiempo Esperado
+        6Ta+n*(2Ta+Tc+To)-7Ta+Tc+To
+        -Ta+n*(2Ta+Tc+To)-Tc-To
+        */
     }
     public void LllenarCBXAutor(JComboBox JA) throws Exception{
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        JA.setModel(modelo);
-        Autor A= new Autor();
-        ArrayList<Autor>ListaA=A.AutorVista();
-        CBXAutor.removeAllItems();
-        for (int i = 0; i < ListaA.size(); i++) {
-            modelo.addElement(ListaA.get(i));
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();//Ta
+        JA.setModel(modelo);//Ta
+        Autor A= new Autor();//Ta
+        ArrayList<Autor>ListaA=A.AutorVista();//Ta
+        CBXAutor.removeAllItems();//Ta
+        for (int i = 0; i < ListaA.size(); i++) {//Ta+n(2Ta+Tc+To)
+            modelo.addElement(ListaA.get(i));//Ta
             System.out.println(ListaA.get(i).toString());
         }
-       JA.setModel(modelo);
+       JA.setModel(modelo);//ta
+       /*
+       Tiempo Peor Esperado
+       8Ta+n(2Ta+Tc+To)
+       Tiempo Mejor esperado
+       8Ta+2Ta+Tc+To
+       Tiempo Esperado
+       8Ta+n(2Ta+Tc+To)-[8Ta+2Ta+Tc+To]=n(2Ta+Tc+To)-2Ta+Tc+To
+       n(2Ta+Tc+To)-2Ta+Tc+To
+       */
     }
     public void LlenarCBXCategoria(JComboBox JC) throws Exception {
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        JC.setModel(modelo);
-        Categoria C =new Categoria();
-        ArrayList<Categoria>ListaC=C.CategoriaVista();
-        CBXCategoria.setModel(modelo);
-        for (int i = 0; i < ListaC.size(); i++) {
-            modelo.addElement(ListaC.get(i));
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();//Ta
+        JC.setModel(modelo);//Ta
+        Categoria C =new Categoria();//Ta
+        ArrayList<Categoria>ListaC=C.CategoriaVista();//Ta
+        CBXCategoria.setModel(modelo);//Ta
+        for (int i = 0; i < ListaC.size(); i++) {//Ta+n*Tc+N(Ta+To)
+            modelo.addElement(ListaC.get(i));//Ta
         }
-        JC.setModel(modelo);
+        JC.setModel(modelo);//Ta
+        /*
+        Tiempo Peor Esperado
+        8Ta+n*Tc+N(Ta+To)
+        Tiempo Mejor Esperado
+        8Ta+Tc+Ta+To
+        Tiempo Esperado
+        8Ta+n*Tc+N(Ta+To)-[8Ta+Tc+Ta+To]=n*Tc+N(Ta+To)-Tc-Ta-To
+        
+        */
     }
  
     @SuppressWarnings("unchecked")
@@ -305,19 +333,20 @@ public class FromLibro extends javax.swing.JFrame {
     private void UpdtLibroJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdtLibroJBUTTONActionPerformed
         // TODO add your handling code here:
           try {
-            Biblioteca B= (Biblioteca) CBXBiblioteca.getSelectedItem();
-            Autor A=(Autor)CBXAutor.getSelectedItem();
-            Categoria C=(Categoria) CBXCategoria.getSelectedItem();
-            Libros L = new Libros();
+            Biblioteca B= (Biblioteca) CBXBiblioteca.getSelectedItem();//Ta
+            Autor A=(Autor)CBXAutor.getSelectedItem();//Ta
+            Categoria C=(Categoria) CBXCategoria.getSelectedItem();//Ta
+            Libros L = new Libros();//Ta
             
-            L.setTitulo(TextoTitulo.getText());
-            L.setPrecio(Double.parseDouble(TextoPrecio.getText()));
-            L.setIdBiblioteca(B.getIdBiblioteca());
-            L.setIdAutor(A.getIdAutor());
-            L.setIdCategoria(C.getIdCategoria());
-            L.setLibrosID(Integer.parseInt(LabelID.getText()));
-            L.Actualizar_Libro();
-            this.mostrar(Tabla,"Select * From libro ");
+            L.setTitulo(TextoTitulo.getText());//Ta
+            L.setPrecio(Double.parseDouble(TextoPrecio.getText()));//Ta
+            L.setIdBiblioteca(B.getIdBiblioteca());//Ta
+            L.setIdAutor(A.getIdAutor());//Ta
+            L.setIdCategoria(C.getIdCategoria());//Ta
+            L.setLibrosID(Integer.parseInt(LabelID.getText()));//Ta
+            L.Actualizar_Libro();//4Ta
+            this.mostrar(Tabla,"Select * From libro ");//2Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
+            //16Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -335,7 +364,7 @@ public class FromLibro extends javax.swing.JFrame {
     private void CBXBibliotecaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXBibliotecaMouseClicked
         // TODO add your handling code here:
         if(evt.getClickCount()==2){
-            FromBiblioteca B = new FromBiblioteca();
+            FromBiblioteca B = new FromBiblioteca();//Ta
             B.setVisible(true);
             
         }
@@ -349,7 +378,7 @@ public class FromLibro extends javax.swing.JFrame {
     private void CBXAutorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXAutorMouseClicked
         // TODO add your handling code here:
             if(evt.getClickCount()==2){
-            FormAutor A = new FormAutor();
+            FormAutor A = new FormAutor();//ta
             A.setVisible(true);
             }
     }//GEN-LAST:event_CBXAutorMouseClicked
@@ -360,17 +389,18 @@ public class FromLibro extends javax.swing.JFrame {
 
     private void AddLibroJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddLibroJBUTTONActionPerformed
         try {
-            Biblioteca B= (Biblioteca) CBXBiblioteca.getSelectedItem();
-            Autor A=(Autor)CBXAutor.getSelectedItem();
-            Categoria C=(Categoria) CBXCategoria.getSelectedItem();
-            Libros L = new Libros();
-            L.setTitulo(TextoTitulo.getText());
-            L.setPrecio(Double.parseDouble(TextoPrecio.getText()));
-            L.setIdBiblioteca(B.getIdBiblioteca());
-            L.setIdAutor(A.getIdAutor());
-            L.setIdCategoria(C.getIdCategoria());
-            L.Insertar_Libro();
-            this.mostrar(Tabla,"Select * From libro ");
+            Biblioteca B= (Biblioteca) CBXBiblioteca.getSelectedItem();//Ta
+            Autor A=(Autor)CBXAutor.getSelectedItem();//Ta
+            Categoria C=(Categoria) CBXCategoria.getSelectedItem();//Ta
+            Libros L = new Libros();//Ta
+            L.setTitulo(TextoTitulo.getText());//Ta
+            L.setPrecio(Double.parseDouble(TextoPrecio.getText()));//Ta
+            L.setIdBiblioteca(B.getIdBiblioteca());//Ta
+            L.setIdAutor(A.getIdAutor());//Ta
+            L.setIdCategoria(C.getIdCategoria());//Ta
+            L.Insertar_Libro();//4Ta+To
+            this.mostrar(Tabla,"Select * From libro ");//2Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
+            //15Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -379,8 +409,9 @@ public class FromLibro extends javax.swing.JFrame {
 
     private void CBXCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXCategoriaMouseClicked
            if(evt.getClickCount()==2){
-            FormCategoria B = new FormCategoria();
+            FormCategoria B = new FormCategoria();//Ta
             B.setVisible(true);
+            //Ta
             }        // TODO add your handling code here:
     }//GEN-LAST:event_CBXCategoriaMouseClicked
 
@@ -392,9 +423,10 @@ public class FromLibro extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             Libros L = new Libros();
-            L.setLibrosID(Integer.parseInt(LabelID.getText()));
-            L.Eliminar_Libro();
-            this.mostrar(Tabla,"Select * From libro ");
+            L.setLibrosID(Integer.parseInt(LabelID.getText()));//Ta
+            L.Eliminar_Libro();//4Ta
+            this.mostrar(Tabla,"Select * From libro ");// 2Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
+            // 7Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
         } catch (Exception ex) {
             Logger.getLogger(FromLibro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -411,14 +443,15 @@ public class FromLibro extends javax.swing.JFrame {
 
     private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
         // TODO add your handling code here:
-        mouseclick();
+        mouseclick();//4Ta
     }//GEN-LAST:event_TablaMouseClicked
 
     private void ClearJBUTTON1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearJBUTTON1ActionPerformed
         // TODO add your handling code here:
-        TextoPrecio.setText("");
-        TextoTitulo.setText("");
-        LabelID.setText("");
+        TextoPrecio.setText("");//Ta
+        TextoTitulo.setText("");//Ta
+        LabelID.setText("");//Ta
+        //3Ta
     }//GEN-LAST:event_ClearJBUTTON1ActionPerformed
 
     private void MenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuActionPerformed
@@ -427,32 +460,48 @@ public class FromLibro extends javax.swing.JFrame {
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_MenuActionPerformed
  private void mouseclick(){
-     int fila= Tabla.getSelectedRow();
-     LabelID.setText(Tabla.getModel().getValueAt(fila, 0).toString());
-     TextoTitulo.setText(Tabla.getModel().getValueAt(fila, 1).toString());
-     TextoPrecio.setText(Tabla.getModel().getValueAt(fila, 2).toString());
+     int fila= Tabla.getSelectedRow();//Ta
+     LabelID.setText(Tabla.getModel().getValueAt(fila, 0).toString());//Ta
+     TextoTitulo.setText(Tabla.getModel().getValueAt(fila, 1).toString());//Ta
+     TextoPrecio.setText(Tabla.getModel().getValueAt(fila, 2).toString());//Ta
+     //4Ta
  }
     private void mostrar(javax.swing.JTable JT, String sql) {
         try {
-            Clientes cb = new Clientes();
+            Clientes cb = new Clientes();//Ta
             ResultSet rs;
-            DefaultTableModel modelo = new DefaultTableModel();
-            JT.setModel(modelo);
-            rs = cb.consultaTabla(sql);
+            DefaultTableModel modelo = new DefaultTableModel();//Ta
+            JT.setModel(modelo);//Ta
+            rs = cb.consultaTabla(sql);//Ta
             ResultSetMetaData rsMd;
-            rsMd = rs.getMetaData();
-            int cantcolumnas = rsMd.getColumnCount();
-            for (int i = 1; i <= cantcolumnas; i++) {
-                modelo.addColumn(rsMd.getColumnLabel(i));
+            rsMd = rs.getMetaData();//Ta
+            int cantcolumnas = rsMd.getColumnCount();//Ta
+            //6Ta
+            for (int i = 1; i <= cantcolumnas; i++) {//Ta+N(Tc+To+Ta)
+                modelo.addColumn(rsMd.getColumnLabel(i));//Ta
             }
-            while (rs.next()) {
-                Object[] columna = new Object[cantcolumnas];
-                for (int i = 0; i < cantcolumnas; i++) {
-                    columna[i] = rs.getObject(i + 1);
+            while (rs.next()) {//n*Tc
+                Object[] columna = new Object[cantcolumnas];//Ta
+                for (int i = 0; i < cantcolumnas; i++) {//Ta+n(Tc+To+Ta)
+                    columna[i] = rs.getObject(i + 1);//n(Ta+To)
                 }
-                modelo.addRow(columna);
+                modelo.addRow(columna);//n*Ta
             }
+            
+            /*
+            Tiempo Peor esperado
 
+            9Ta+Ta+N(Tc+To+Ta)+n*Tc+n(Tc+To+Ta)+n(Ta+To)+n*Ta
+            10Ta + N*(Tc + To + Ta) + n*(2Tc + 2To + 2Ta) + n*Ta
+            Tiempo Mejor esperado
+            6Ta+Ta+Tc+To+Ta+Ta+2Tc
+            9Ta+To+2Tc
+            Tiempo Esperado
+            10Ta + N*(Tc + To + Ta) + n*(2Tc + 2To + 2Ta) + n*Ta-[ 9Ta+To+2Tc]
+            Ta+N*(Tc + To + Ta) + n*(2Tc + 2To + 2Ta)-To-2Tc]
+            despues de distribuir agrupar y simplificar terminos queda
+            2Ta + (N - 2)*(Tc) + (N + 1)*(To) + 2n*(Tc + Ta + To)
+            */
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error" + e.toString());
         }
