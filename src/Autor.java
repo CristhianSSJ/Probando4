@@ -114,6 +114,9 @@ public class Autor {
     }
         return Lista;
 }
+          // 5TA + N * TA + N*TC + N*TO TIEMPO PEOR ESPERADO
+        // 6TA + TC + AL TIEMPO MEJOR ESPERADO
+        // -TA + N * TA + N*TC + N*TO - TC -TO TIEMPO ESPERADO
 // Representación en forma de cadena del autor
     @Override
     public String toString() {

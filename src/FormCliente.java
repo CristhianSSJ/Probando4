@@ -402,6 +402,13 @@ public class FormCliente extends javax.swing.JFrame {
                 modelo.addRow(columna);
             }
             //Tm = 2ta + n * (2tc + to + ta) + tc
+            /*Tiempo Peor Esperado
+        Ta+Ta+2Ta+n(Tc+8Ta)=4Ta+n(Tc+8Ta)
+        Tiempo Mejor esperado
+        Ta+Ta+2Ta+Tc=4Ta+Tc
+        Tiempo mejor esperado
+        4Ta+n(Tc+8Ta)-(4Ta+Tc)=n(Tc+8Ta)-tc
+        */
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error" + e.toString());
         }

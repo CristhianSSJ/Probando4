@@ -182,12 +182,12 @@ public class Clientes {
            Lista.add(C);
     }
         return Lista;
-        /*Tiempo Peor Esperado
-        Ta+n*tc
-        Tiempo Mejor Esperado
-        Ta+Tc
-        Tiempo Esperado
-        n
+      /*Tiempo Peor Esperado
+        Ta+Ta+2Ta+n(Tc+8Ta)=4Ta+n(Tc+8Ta)
+        Tiempo Mejor esperado
+        Ta+Ta+2Ta+Tc=4Ta+Tc
+        Tiempo mejor esperado
+        4Ta+n(Tc+8Ta)-(4Ta+Tc)=n(Tc+8Ta)-tc
         */
 }
 // Representación en forma de cadena del cliente

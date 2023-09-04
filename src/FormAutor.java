@@ -249,12 +249,12 @@ public class FormAutor extends javax.swing.JFrame {
                 }
                 modelo.addRow(columna);
             }
-/*Tiempo Peor Esperado
-        Ta+n*tc
-        Tiempo Mejor Esperado
-        Ta+Tc
-        Tiempo Esperado
-        n
+             /*Tiempo Peor Esperado
+        Ta+Ta+3a+n(Tc+8Ta)=5a+n(Tc+8Ta)
+        Tiempo Mejor esperado
+        Ta+Ta4Ta+Tc=6ta*tc
+        Tiempo mejor esperado
+        4Ta+n(Tc+8Ta)-(4Ta+Tc)=n(Tc+8Ta)-tc
         */
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error" + e.toString());
