@@ -359,14 +359,14 @@ public class FormCliente extends javax.swing.JFrame {
 
     private void ClearJBUTTON1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearJBUTTON1ActionPerformed
         // TODO add your handling code here:
-        TextoApellido.setText("");
-        TextoCedula.setText("");
-        TextoCiudad.setText("");
-        TextoDireccion.setText("");
-        TextoTelefono.setText("");
-        TextoNombre.setText("");
-        Labelidcliente.setText("");
-        this.mostrar(Tabla, "select * from clientes");
+        TextoApellido.setText("");//ta
+        TextoCedula.setText("");//ta
+        TextoCiudad.setText("");//ta
+        TextoDireccion.setText("");//ta
+        TextoTelefono.setText("");//ta
+        TextoNombre.setText("");//ta
+        Labelidcliente.setText("");//ta
+        this.mostrar(Tabla, "select * from clientes");//3ta
     }//GEN-LAST:event_ClearJBUTTON1ActionPerformed
 
     private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
@@ -391,17 +391,17 @@ public class FormCliente extends javax.swing.JFrame {
             ResultSetMetaData rsMd;
             rsMd = rs.getMetaData();
             int cantcolumnas = rsMd.getColumnCount();
-            for (int i = 1; i <= cantcolumnas; i++) {
+            for (int i = 1; i <= cantcolumnas; i++) {//n*(to + ta)
                 modelo.addColumn(rsMd.getColumnLabel(i));
             }
-            while (rs.next()) {
+            while (rs.next()) {//n*tc
                 Object[] columna = new Object[cantcolumnas];
                 for (int i = 0; i < cantcolumnas; i++) {
                     columna[i] = rs.getObject(i + 1);
                 }
                 modelo.addRow(columna);
             }
-            
+            //Tm = 2ta + n * (2tc + to + ta) + tc
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error" + e.toString());
         }

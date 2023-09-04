@@ -231,7 +231,7 @@ public class FormAutor extends javax.swing.JFrame {
     }//GEN-LAST:event_DELETEJBUTTONActionPerformed
  private void mostrar(javax.swing.JTable JT, String sql) {
         try {
-            Clientes cb = new Clientes();
+            Clientes cb = new Clientes();//ta
             ResultSet rs;
             DefaultTableModel modelo = new DefaultTableModel();
             JT.setModel(modelo);
@@ -242,14 +242,20 @@ public class FormAutor extends javax.swing.JFrame {
             for (int i = 1; i <= cantcolumnas; i++) {
                 modelo.addColumn(rsMd.getColumnLabel(i));
             }
-            while (rs.next()) {
+            while (rs.next()) {//n*Tc
                 Object[] columna = new Object[cantcolumnas];
                 for (int i = 0; i < cantcolumnas; i++) {
                     columna[i] = rs.getObject(i + 1);
                 }
                 modelo.addRow(columna);
             }
-
+/*Tiempo Peor Esperado
+        Ta+n*tc
+        Tiempo Mejor Esperado
+        Ta+Tc
+        Tiempo Esperado
+        n
+        */
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error" + e.toString());
         }
@@ -262,7 +268,7 @@ public class FormAutor extends javax.swing.JFrame {
            C.setApellidoA(TextoApe.getText());
             C.Insertar_Autor();
             this.mostrar(Tabla, "select * from Autor");
-
+         //2ta
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "El ingreso no pudo realizarse ");
         }
@@ -278,7 +284,7 @@ private void MouseClick() {
         LabelID.setText(Tabla.getModel().getValueAt(fila, 0).toString());
         TextoA.setText(Tabla.getModel().getValueAt(fila, 1).toString());
         TextoApe.setText(Tabla.getModel().getValueAt(fila, 2).toString());
-    }
+    }//tc
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

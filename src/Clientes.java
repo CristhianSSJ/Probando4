@@ -21,7 +21,7 @@ public class Clientes {
     }
 
     public void setCedula(String Cedula) {
-        this.Cedula = Cedula;
+        this.Cedula = Cedula;//ta
     }
 // Métodos para obtener y establecer la ciudad del cliente
     public String getCiudad() {
@@ -33,7 +33,7 @@ public class Clientes {
     }
 // Métodos para obtener y establecer el ID del cliente
     public void setClienteID(int ClienteID) {
-        this.ClienteID = ClienteID;
+        this.ClienteID = ClienteID;//ta
     }
 // Métodos para obtener y establecer el nombre del cliente
     public String getNombre() {
@@ -41,7 +41,7 @@ public class Clientes {
     }
 
     public void setNombre(String Nombre) {
-        this.Nombre = Nombre;
+        this.Nombre = Nombre;//ta
     }
 // Métodos para obtener y establecer el apellido del cliente
     public String getApellido() {
@@ -49,7 +49,7 @@ public class Clientes {
     }
 
     public void setApellido(String Apellido) {
-        this.Apellido = Apellido;
+        this.Apellido = Apellido;//ta
     }
 // Métodos para obtener y establecer la dirección del cliente
     public String getDireccion() {
@@ -57,7 +57,7 @@ public class Clientes {
     }
 
     public void setDireccion(String Direccion) {
-        this.Direccion = Direccion;
+        this.Direccion = Direccion;//ta
     }
 
     public String getCuidad() {
@@ -65,7 +65,7 @@ public class Clientes {
     }
 
     public void setCuidad(String Ciudad) {
-        this.Ciudad = Ciudad;
+        this.Ciudad = Ciudad;//ta
     }
  // Métodos para obtener y establecer el teléfono del cliente
     public String getTelefono() {
@@ -73,7 +73,7 @@ public class Clientes {
     }
 
     public void setTelefono(String Telefono) {
-        this.Telefono = Telefono;
+        this.Telefono = Telefono;//ta
     }
 // Métodos para obtener y establecer el objeto de acceso a la base de datos
     public AccesoBD getBD() {
@@ -81,7 +81,7 @@ public class Clientes {
     }
 
     public void setBD(AccesoBD BD) {
-        this.BD = BD;
+        this.BD = BD;//ta
     }
  
     public int getClienteID() {
@@ -92,12 +92,14 @@ public class Clientes {
         int inc;
         ResultSet rs;
         rs = BD.ConsultaBD("SELECT max(ClienteID) as num FROM clientes;");
-        if (rs.next()) {
+        if (rs.next()) {//n*tc
             inc = rs.getInt(1) + 1;
         } else {
-            inc = 1;
+            inc = 1;//n*(to + ta)
+
         }
         return inc;
+        // m = (2tc + to + ta) * n + (tc + 2ta) = A * n + B
     }
 // Método para insertar un nuevo cliente en la base de datos
     public void Insertar_Cliente() throws SQLException {
@@ -105,8 +107,9 @@ public class Clientes {
             // Crear la cadena SQL para la inserción
         String cadena = "insert into clientes values('" + Incremento_CLiente() + "','" + getCedula()
                 + "','" + getNombre() + "','" + getApellido() + "','" + getDireccion() + "','" + getCuidad() + "','" + getTelefono() + "')";
+        //ta+ta+to
         BD.ActualizarBD(cadena);// Ejecutar la actualización en la base de datos
-   
+         //2ta
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Ingreso no realizado");
         }
@@ -116,15 +119,15 @@ public class Clientes {
       String cadena = "UPDATE clientes SET Cedula='" + getCedula() + "', Nombre='" + getNombre() + "', Apellido='" +
                 getApellido() + "', Direccion='" + getDireccion() + "', Ciudad='" + getCiudad() + "', Telefono='" + getTelefono() +
                 "' WHERE ClienteID='" + getClienteID()+ "'";
-
+    //ta+ta+to
         BD.ActualizarBD(cadena);// Ejecutar la actualización en la base de datos
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Método para obtener el ID de un cliente a partir de su cédula
     public int obtenerIDPorCedula() throws SQLException {
         String consulta = "SELECT ClienteID FROM clientes WHERE Cedula = '" + getCedula() + "'";
-        ResultSet rs = BD.ConsultaBD(consulta);
-        if (rs.next()) {
+        ResultSet rs = BD.ConsultaBD(consulta);// 2ta
+        if (rs.next()) {// n*tc
             return rs.getInt("ClienteID");
         } else {
             return -1; // Valor de retorno para indicar que no se encontró el libro
@@ -144,7 +147,7 @@ public class Clientes {
     public void Consultar_Cliente() throws SQLException {
         ResultSet rs;
         rs = BD.ConsultaBD("select * from Cliente");
-        while (rs.next()) {
+        while (rs.next()) {// n*tc
             System.out.print(rs.getInt(1) + " ");
             System.out.print(rs.getString(2) + " ");
             System.out.print(rs.getString(3) + " ");
@@ -153,6 +156,13 @@ public class Clientes {
             System.out.print(rs.getString(6) + " ");
             System.out.println("");
         }
+        /*Tiempo Peor Esperado
+        Ta+n*tc
+        Tiempo Mejor Esperado
+        Ta+Tc
+        Tiempo Esperado
+        n
+        */
     }
     // Método para obtener una lista de clientes desde la base de datos
     public ArrayList<Clientes> Consulta() throws SQLException, Exception{
@@ -160,7 +170,7 @@ public class Clientes {
         rs = BD.ConsultaBD("select * from Clientes");
         ArrayList<Clientes> Lista= new ArrayList<>();
         
-        while (rs.next()) {
+        while (rs.next()) {// n*tc
             Clientes C = new Clientes();
            C.setClienteID(rs.getInt("ClienteID"));
            C.setCedula(rs.getString("Cedula"));
@@ -172,6 +182,13 @@ public class Clientes {
            Lista.add(C);
     }
         return Lista;
+        /*Tiempo Peor Esperado
+        Ta+n*tc
+        Tiempo Mejor Esperado
+        Ta+Tc
+        Tiempo Esperado
+        n
+        */
 }
 // Representación en forma de cadena del cliente
     @Override

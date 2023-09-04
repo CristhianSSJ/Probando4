@@ -259,7 +259,7 @@ public class FromBiblioteca extends javax.swing.JFrame {
             B.setIdSupervisor(CBXSupervisor.getSelectedIndex() + 1);
             B.setIdBiblioteca(Integer.parseInt(LabelIdBiblioteca.getText()));
             B.Actualizar_Biblioteca();
-            this.mostrar(Tabla, "select * from biblioteca");
+            this.mostrar(Tabla, "select * from biblioteca");//ta
         } catch (Exception ex) {
             Logger.getLogger(FromBiblioteca.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -271,9 +271,9 @@ public class FromBiblioteca extends javax.swing.JFrame {
 
     private void CBXSupervisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBXSupervisorMouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) {//ta
             FormSupervisor FS = new FormSupervisor();
-            FS.setVisible(true);
+            FS.setVisible(true);//tc
         }
     }//GEN-LAST:event_CBXSupervisorMouseClicked
 
@@ -285,7 +285,7 @@ public class FromBiblioteca extends javax.swing.JFrame {
             B.setNombre(NombreBiblioteca.getText());
             B.setIdSupervisor(S.getIdSupersvisor());
             B.Insertar_Biblioteca();
-            this.mostrar(Tabla, "select * from biblioteca");
+            this.mostrar(Tabla, "select * from biblioteca");//ta
 
         } catch (Exception ex) {
             Logger.getLogger(FromBiblioteca.class.getName()).log(Level.SEVERE, null, ex);
@@ -299,7 +299,7 @@ public class FromBiblioteca extends javax.swing.JFrame {
             Biblioteca B = new Biblioteca();
             B.setIdBiblioteca(Integer.parseInt(LabelIdBiblioteca.getText()));
             B.Eliminar_Biblioteca();
-            this.mostrar(Tabla, "select * from biblioteca");
+            this.mostrar(Tabla, "select * from biblioteca");//ta
         } catch (Exception ex) {
             Logger.getLogger(FromBiblioteca.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -325,9 +325,9 @@ public class FromBiblioteca extends javax.swing.JFrame {
 
     private void ClearJBUTTON1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearJBUTTON1ActionPerformed
         // TODO add your handling code here:
-       LabelIdBiblioteca.setText("");
-       NombreBiblioteca.setText("");
-       DireccionBiblioteca.setText("");
+       LabelIdBiblioteca.setText("");//ta       
+       NombreBiblioteca.setText("");//ta 
+       DireccionBiblioteca.setText("");//ta 
     }//GEN-LAST:event_ClearJBUTTON1ActionPerformed
 
     private void MouseClick() {
@@ -336,7 +336,7 @@ public class FromBiblioteca extends javax.swing.JFrame {
         NombreBiblioteca.setText(Tabla.getModel().getValueAt(fila, 3).toString());
         DireccionBiblioteca.setText(Tabla.getModel().getValueAt(fila, 1).toString());
         CBXSupervisor.setSelectedIndex(Integer.parseInt(Tabla.getModel().getValueAt(fila, 2).toString()) - 1);
-    }
+    }//Ta+Ta+To+2Ta=4Ta+To
 
     private void mostrar(javax.swing.JTable JT, String sql) {
         try {
@@ -348,10 +348,10 @@ public class FromBiblioteca extends javax.swing.JFrame {
             ResultSetMetaData rsMd;
             rsMd = rs.getMetaData();
             int cantcolumnas = rsMd.getColumnCount();
-            for (int i = 1; i <= cantcolumnas; i++) {
+            for (int i = 1; i <= cantcolumnas; i++) {//n*(to + ta)
                 modelo.addColumn(rsMd.getColumnLabel(i));
             }
-            while (rs.next()) {
+            while (rs.next()) {//n*tc
                 Object[] columna = new Object[cantcolumnas];
                 for (int i = 0; i < cantcolumnas; i++) {
                     columna[i] = rs.getObject(i + 1);
@@ -369,9 +369,10 @@ public void LlenarCBX(JComboBox AA) throws Exception {
         Supervisor S = new Supervisor();
         ArrayList<Supervisor> ListaS = S.SupervisorVista();
         CBXSupervisor.removeAllItems();
-        for (int i = 0; i < ListaS.size(); i++) {
+        for (int i = 0; i < ListaS.size(); i++) {//n*(to + ta)
             modelo.addElement(ListaS.get(i));
-            
+            //Tp = (2tc + 2to + 2ta) * n + (2tc + 2ta)
+
         }
      AA.setModel(modelo);
     }

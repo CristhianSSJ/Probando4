@@ -13,7 +13,7 @@ public class AccesoBD {
         this.User = User;
         this.Password = Password;
         this.BD = BD;
-
+//4ta
     }
 
     public String getHost() {
@@ -40,6 +40,7 @@ public class AccesoBD {
         } catch (SQLException e) {
             System.out.println("Error a la conexion a la Base de Datos" + e.toString());
         }
+        //3ta
     }
 
     public void ActualizarBD(String sql)throws SQLException{
@@ -52,7 +53,7 @@ public class AccesoBD {
         
         } catch (SQLException e) {
             System.out.println("Error en la Transaccion "+ e.toString());
-       
+       //2Ta
         
     }
     }
@@ -62,7 +63,9 @@ public class AccesoBD {
         Statement stm = conexion.createStatement();
         Cursor = stm.executeQuery(sql);
         return Cursor;
+        //2ta
     }
+    
 
     public void CerrarBD() throws SQLException {
         conexion.close();
