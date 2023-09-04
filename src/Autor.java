@@ -62,11 +62,11 @@ public class Autor {
      public int Incremento_Autor() throws SQLException {
         int inc;
         ResultSet rs;
-        rs = BD.ConsultaBD("SELECT max(idAutor) as num FROM Autor;");//Ta+2Ta
+        rs = BD.ConsultaBD("SELECT max(idAutor) as num FROM Autor;");//2Ta
         if (rs.next()) {//tc
-            inc = rs.getInt(1) + 1;//To+Ta
+            inc = rs.getInt(1) + 1;//to + ta
         } else {
-            inc = 1;//Ta
+            inc = 1;
         }
         return inc;
     }
@@ -86,41 +86,46 @@ public class Autor {
          // Método para actualizar los datos de un autor en la base de datos
         public void Actualiza_Autor() throws SQLException {
       String cadena = "UPDATE Autor SET NombreAutor='" + getNombreA() + "', ApellidoAutor='" + getApellidoA() + "' WHERE idAutor='" + getIdAutor() + "'";
-         //ta+ta+to 
+        //2Ta
         BD.ActualizarBD(cadena);// Ejecutar la actualización en la base de datos
-    }   // ta
+    }  //2Ta
         // Método para eliminar un autor de la base de datos
         public void Eliminar_Autor() throws SQLException {
        String cadena = "DELETE FROM Autor WHERE idAutor='" + getIdAutor() + "'";
         //3Ta
         BD.ActualizarBD(cadena);// Ejecutar la actualización en la base de datos
-    }   //4Ta
+    }   //2Ta
         // Método para realizar una consulta personalizada en la base de datos
       public ResultSet consultaTabla(String sql) throws SQLException {
         return BD.ConsultaBD(sql);
-    }//2ta
+    }    //2ta
       // Método para obtener una lista de autores desde la base de datos
          public ArrayList<Autor> AutorVista() throws SQLException, Exception{
      ResultSet rs;
-        rs = BD.ConsultaBD("select * from autor");//ta
+        rs = BD.ConsultaBD("select * from autor");//2Ta
         ArrayList<Autor> Lista= new ArrayList<>();
-        while (rs.next()) {//n*Tc
+        while (rs.next()) {
                     Autor a = new Autor();
 
-           a.setIdAutor(rs.getInt("idAutor"));//n*Ta
-           a.setNombreA(rs.getString("NombreAutor"));//n*Ta
-           a.setApellidoA(rs.getString("ApellidoAutor"));//n*Ta
-           Lista.add(a);
-    }
+           a.setIdAutor(rs.getInt("idAutor"));
+           a.setNombreA(rs.getString("NombreAutor"));
+           a.setApellidoA(rs.getString("ApellidoAutor"));//n * (3Ta
+           Lista.add(a); //ta
+    }  
         return Lista;
 }
-          // 5TA + N * TA + N*TC + N*TO TIEMPO PEOR ESPERADO
-        // 6TA + TC + AL TIEMPO MEJOR ESPERADO
-        // -TA + N * TA + N*TC + N*TO - TC -TO TIEMPO ESPERADO
+          
 // Representación en forma de cadena del autor
     @Override
     public String toString() {
-        return NombreA + " " + ApellidoA;
+        return NombreA + " " + ApellidoA; //to
     }
-         
+//         Tiempo total esperado (peor caso):
+//3Ta + 3Ta + 3Ta + (2Ta + tc + to + ta) + (ta + 2Ta) + (2Ta + 2Ta) + 3Ta + (2Ta + n * (3Ta)) + ta + to
+//
+//Esto es igual a:
+//17Ta + tc + 4To + 5Ta + n * (3Ta) + ta
+//
+//Entonce el tiempo total esperado es:
+//17ta + tc + 4to + 5ta + n * (3ta) + ta
 }

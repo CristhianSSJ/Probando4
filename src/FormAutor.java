@@ -23,7 +23,7 @@ public class FormAutor extends javax.swing.JFrame {
      */
     public FormAutor() {
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null);//Ta
     }
 
     /**
@@ -192,18 +192,18 @@ public class FormAutor extends javax.swing.JFrame {
         // TODO add your handling code here:
         TextoA.setText("");
         TextoApe.setText("");
-        LabelID.setText("");
+        LabelID.setText("");// 3Ta
 //        this.mostrar(Tabla, "select * from clientes");
     }//GEN-LAST:event_ClearJBUTTON1ActionPerformed
 
     private void UPDATEJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UPDATEJBUTTONActionPerformed
         try {
             // TODO add your handling code here:
-            Autor C = new Autor();
+            Autor C = new Autor();//Ta
             C.setNombreA(TextoA.getText());
             C.setApellidoA(TextoApe.getText());
-            C.Actualiza_Autor();
-            this.mostrar(Tabla, "select * from Autor");
+            C.Actualiza_Autor();//4Ta
+            this.mostrar(Tabla, "select * from Autor");//5Ta + n*(Tc+8Ta)
 //            this.mostrar(Tabla, "select * from clientes");
         } catch (Exception ex) {
             Logger.getLogger(FormCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -212,7 +212,7 @@ public class FormAutor extends javax.swing.JFrame {
 
     private void CONSULTJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CONSULTJBUTTONActionPerformed
 
-        this.mostrar(Tabla, "select * from Autor");      // TODO add your handling code here:
+        this.mostrar(Tabla, "select * from Autor"); // 5Ta + n*(Tc+8Ta)     // TODO add your handling code here:
 //        this.mostrar(Tabla, "select * from clientes");
     }//GEN-LAST:event_CONSULTJBUTTONActionPerformed
 
@@ -220,10 +220,10 @@ public class FormAutor extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             // TODO add your handling code here:
-            Autor C = new Autor();
+            Autor C = new Autor();//Ta
             C.setIdAutor(Integer.parseInt(LabelID.getText()));
-            C.Eliminar_Autor();
-            this.mostrar(Tabla, "select * from Autor");
+            C.Eliminar_Autor();//3Ta
+            this.mostrar(Tabla, "select * from Autor");//5Ta + n*(Tc+8Ta)
 //            this.mostrar(Tabla, "select * from clientes");
         } catch (Exception ex) {
             Logger.getLogger(FormCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -235,7 +235,7 @@ public class FormAutor extends javax.swing.JFrame {
             ResultSet rs;
             DefaultTableModel modelo = new DefaultTableModel();
             JT.setModel(modelo);
-            rs = cb.consultaTabla(sql);
+            rs = cb.consultaTabla(sql);//2ta
             ResultSetMetaData rsMd;
             rsMd = rs.getMetaData();
             int cantcolumnas = rsMd.getColumnCount();
@@ -249,13 +249,7 @@ public class FormAutor extends javax.swing.JFrame {
                 }
                 modelo.addRow(columna);
             }
-             /*Tiempo Peor Esperado
-        Ta+Ta+3a+n(Tc+8Ta)=5a+n(Tc+8Ta)
-        Tiempo Mejor esperado
-        Ta+Ta4Ta+Tc=6ta*tc
-        Tiempo mejor esperado
-        4Ta+n(Tc+8Ta)-(4Ta+Tc)=n(Tc+8Ta)-tc
-        */
+           //8Ta
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error" + e.toString());
         }
@@ -263,12 +257,12 @@ public class FormAutor extends javax.swing.JFrame {
     private void ADDBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADDBUTTONActionPerformed
         try {
             // TODO add your handling code here:
-            Autor C = new Autor();
+            Autor C = new Autor();//ta
            C.setNombreA(TextoA.getText());
            C.setApellidoA(TextoApe.getText());
-            C.Insertar_Autor();
+            C.Insertar_Autor();//4Ta
             this.mostrar(Tabla, "select * from Autor");
-         //2ta
+         //5Ta + n*(Tc+8Ta)
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "El ingreso no pudo realizarse ");
         }
@@ -277,15 +271,15 @@ public class FormAutor extends javax.swing.JFrame {
 
     private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
 
-        MouseClick();        // TODO add your handling code here:
+        MouseClick(); //tc       // TODO add your handling code here:
     }//GEN-LAST:event_TablaMouseClicked
 private void MouseClick() {
         int fila = Tabla.getSelectedRow();
         LabelID.setText(Tabla.getModel().getValueAt(fila, 0).toString());
         TextoA.setText(Tabla.getModel().getValueAt(fila, 1).toString());
         TextoApe.setText(Tabla.getModel().getValueAt(fila, 2).toString());
-    }//tc
-    public static void main(String args[]) {
+    }// 3Ta
+    public static void main(String args[]) {// Ta
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -308,7 +302,7 @@ private void MouseClick() {
             java.util.logging.Logger.getLogger(FormAutor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -316,7 +310,14 @@ private void MouseClick() {
             }
         });
     }
-
+//Tiempo total esperado (peor caso):
+//Ta + 3Ta + Ta + 4Ta + 5Ta + n*(5Ta + Tc + 8Ta) + 5Ta + n*(5Ta + Tc + 8Ta) + 4Ta + 5Ta + n*(5Ta + Tc + 8Ta) + Ta
+//
+//Esto es igual a:
+//Ta + 13Ta + 3Tc + 21Ta + n*(21Ta + 5Tc) + 10Ta
+//
+//Entonces el tiempo total esperado es:
+//13Ta + 3Tc + 21Ta + n*(21Ta + 5Tc) + 10Ta
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ADDBUTTON;
     private javax.swing.JButton CONSULTJBUTTON;

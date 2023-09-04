@@ -57,19 +57,19 @@ public class Biblioteca {
     public int Incremento_Bibliotca() throws SQLException {
         int inc;
         ResultSet rs;
-        rs = BD.ConsultaBD("SELECT max(idBiblioteca) as num FROM biblioteca;");
-        if (rs.next()) {
-            inc = rs.getInt(1) + 1; //n*(to+ta)
+        rs = BD.ConsultaBD("SELECT max(idBiblioteca) as num FROM biblioteca;");//tc + to + ta
+        if (rs.next()) {//tc
+            inc = rs.getInt(1) + 1; 
 
         } else {
-            inc = 1;//Ta
+            inc = 1;
         }
-        return inc;
+        return inc;//to + ta
     }
 
     public void Insertar_Biblioteca() throws SQLException {
         String cadena = "INSERT INTO Biblioteca VALUES(" + Incremento_Bibliotca() + ",'" + getDireccion() + "','" + getIdSupervisor() + "','" + getNombre() + "')";
-             //Ta
+             //ta
 //        String cadena = "insert into Biblioteca values(" + Incremento_Bibliotca() + ",'" + 
 //        "','" + getDireccion() + "','" + getIdSupervisor()+"','"+getNombre()+"')";
         BD.ActualizarBD(cadena);
@@ -80,9 +80,9 @@ public class Biblioteca {
     public int obtenerIDPorNombreydireccion() throws SQLException {
         String consulta = "SELECT idBiblioteca FROM Biblioteca WHERE Direccion = '" + getDireccion() + "' AND Nombre = '" + getNombre() + "'";//Ta
         ResultSet rs = BD.ConsultaBD(consulta);//tc
-        if (rs.next()) { //n*tc
+        if (rs.next()) { //tc
             return rs.getInt("idBiblioteca");
-        } else {//Ta
+        } else {
             return -1; // Valor de retorno para indicar que no se encontró el libro
         }
     }
@@ -91,17 +91,17 @@ public class Biblioteca {
     public void Actualizar_Biblioteca() throws SQLException {
         String cadena = "UPDATE biblioteca SET Direccion='" + getDireccion() + "', idSupervisor='"
                 + getIdSupervisor() + "', nombre='" + getNombre() + "' WHERE idBiblioteca='" + getIdBiblioteca() + "'";
-       //ta+ta+to
+       //2Ta
         BD.ActualizarBD(cadena);// 2ta
     }
 
     public void Eliminar_Biblioteca() throws SQLException {
-        String cadena = "delete from biblioteca where idBiblioteca='" + getIdBiblioteca() + "'";//ta+to
+        String cadena = "delete from biblioteca where idBiblioteca='" + getIdBiblioteca() + "'";//ta + to
         BD.ActualizarBD(cadena);//2ta
     }
 
     public ResultSet consultaTabla(String sql) throws SQLException {
-        return BD.ConsultaBD(sql);
+        return BD.ConsultaBD(sql);//2ta
     }
 
     public void Consultar_Biblioteca() throws SQLException {
@@ -115,13 +115,7 @@ public class Biblioteca {
             System.out.print(rs.getString(5) + " ");
             System.out.print(rs.getString(6) + " ");
             System.out.println("");
-        /*Tiempo Peor Esperado
-        Ta+n*tc
-        Tiempo Mejor Esperado
-        Ta+Tc
-        Tiempo Esperado
-        n
-        */
+        //n * (8Ta)
         }
     }
 
@@ -129,40 +123,41 @@ public class Biblioteca {
         ArrayList<Biblioteca> Lista = new ArrayList<>();
         ResultSet rs;
         rs = BD.ConsultaBD("Select * from Biblioteca");// ta
-        while (rs.next()) {//n*Tc
+        while (rs.next()) {
             Biblioteca SAUX = new Biblioteca();
-            SAUX.setIdBiblioteca(rs.getInt("idBiblioteca")); //ta
-            SAUX.setDireccion(rs.getString("Direccion"));//ta
-            SAUX.setIdSupervisor(rs.getInt("idSupervisor"));//ta
-            SAUX.setNombre(rs.getString("nombre"));//ta
-            Lista.add(SAUX);
+            SAUX.setIdBiblioteca(rs.getInt("idBiblioteca")); 
+            SAUX.setDireccion(rs.getString("Direccion"));
+            SAUX.setIdSupervisor(rs.getInt("idSupervisor"));
+            SAUX.setNombre(rs.getString("nombre"));
+            Lista.add(SAUX); // n * (8Ta)
         }
-        return Lista;
-        /*Tiempo Peor Esperado
-        Ta+Ta+2Ta+n(Tc+8Ta)=4Ta+n(Tc+8Ta)
-        Tiempo Mejor esperado
-        Ta+Ta+2Ta+Tc=4Ta+Tc
-        Tiempo mejor esperado
-        4Ta+n(Tc+8Ta)-(4Ta+Tc)=n(Tc+8Ta)-tc
-        */
+        return Lista;//ta
+        
     }
  public ArrayList<Biblioteca> VistaEspecial(int idb) throws SQLException, Exception {
         ArrayList<Biblioteca> Lista = new ArrayList<>();
         ResultSet rs;
         rs = BD.ConsultaBD("SELECT * FROM supervisor INNER JOIN biblioteca ON supervisor.idSupervisor = biblioteca.idSupervisor WHERE biblioteca.idBiblioteca = "+ idb);
-        while (rs.next()) {//n*ta
+        while (rs.next()) {//ta
             Biblioteca SAUX = new Biblioteca();
-            SAUX.setIdBiblioteca(rs.getInt("idBiblioteca"));//ta
-            SAUX.setDireccion(rs.getString("Direccion"));//ta
-            SAUX.setIdSupervisor(rs.getInt("idSupervisor"));//ta
+            SAUX.setIdBiblioteca(rs.getInt("idBiblioteca"));
+            SAUX.setDireccion(rs.getString("Direccion"));
+            SAUX.setIdSupervisor(rs.getInt("idSupervisor"));
             SAUX.setNombre(rs.getString("nombre"));
             Lista.add(SAUX);
-        }
-        return Lista;
+        }// n * (5Ta)
+        return Lista;//ta
     }
     @Override
     public String toString() {
-        return Nombre ;
+        return Nombre ;//to
     }
-    
+//    Tiempo total esperado (peor caso):
+//4Ta + 3Ta + 3Ta + 3Ta + tc + to + ta + ta + ta + to + 2Ta + ta + tc + tc + to + ta + 2Ta + ta + ta + tc + to + ta + ta + 2Ta + 2Ta + ta + ta + 2Ta + ta + n * (8Ta) + ta + to + n * (8Ta) + ta + ta + ta + n * (5Ta) + ta
+//
+//Esto es igual a:
+//15Ta + 3Tc + 4To + 4Ta + n * (21Ta + 5To) + 5Ta + 2To
+//
+//Entonces el tiempo total esperado es:
+//15Ta + 3Tc + 4To + 4Ta + n * (21Ta + 5To) + 5Ta + 2To
 }

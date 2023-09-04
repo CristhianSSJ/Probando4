@@ -7,9 +7,9 @@ import javax.swing.JOptionPane;
 public class Clientes {
 // Atributos privados de la clase
     private int ClienteID;
-    private String Cedula, Nombre, Apellido, Direccion, Ciudad, Telefono;
+    private String Cedula, Nombre, Apellido, Direccion, Ciudad, Telefono;//4Ta
     AccesoBD BD;// Objeto para acceder a la base de datos
-
+    //3ta
     // Constructor de la clase Clientes
     public Clientes() throws Exception {
         BD = new AccesoBD("localhost", "root", "Ayuda", "proyecto");
@@ -91,15 +91,15 @@ public class Clientes {
     public int Incremento_CLiente() throws SQLException {
         int inc;
         ResultSet rs;
-        rs = BD.ConsultaBD("SELECT max(ClienteID) as num FROM clientes;");
-        if (rs.next()) {//n*tc
-            inc = rs.getInt(1) + 1;
+        rs = BD.ConsultaBD("SELECT max(ClienteID) as num FROM clientes;");//tc + to + ta
+        if (rs.next()) {//tc
+            inc = rs.getInt(1) + 1;//to + ta
         } else {
-            inc = 1;//n*(to + ta)
+            inc = 1;
 
         }
         return inc;
-        // m = (2tc + to + ta) * n + (tc + 2ta) = A * n + B
+        
     }
 // Método para insertar un nuevo cliente en la base de datos
     public void Insertar_Cliente() throws SQLException {
@@ -107,7 +107,7 @@ public class Clientes {
             // Crear la cadena SQL para la inserción
         String cadena = "insert into clientes values('" + Incremento_CLiente() + "','" + getCedula()
                 + "','" + getNombre() + "','" + getApellido() + "','" + getDireccion() + "','" + getCuidad() + "','" + getTelefono() + "')";
-        //ta+ta+to
+        // ta + ta + to
         BD.ActualizarBD(cadena);// Ejecutar la actualización en la base de datos
          //2ta
         }catch(SQLException e){
@@ -119,15 +119,15 @@ public class Clientes {
       String cadena = "UPDATE clientes SET Cedula='" + getCedula() + "', Nombre='" + getNombre() + "', Apellido='" +
                 getApellido() + "', Direccion='" + getDireccion() + "', Ciudad='" + getCiudad() + "', Telefono='" + getTelefono() +
                 "' WHERE ClienteID='" + getClienteID()+ "'";
-    //ta+ta+to
+    //2Ta + ta + ta + to
         BD.ActualizarBD(cadena);// Ejecutar la actualización en la base de datos
-    }
+    }//2ta
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Método para obtener el ID de un cliente a partir de su cédula
     public int obtenerIDPorCedula() throws SQLException {
-        String consulta = "SELECT ClienteID FROM clientes WHERE Cedula = '" + getCedula() + "'";
-        ResultSet rs = BD.ConsultaBD(consulta);// 2ta
-        if (rs.next()) {// n*tc
+        String consulta = "SELECT ClienteID FROM clientes WHERE Cedula = '" + getCedula() + "'";//2ta
+        ResultSet rs = BD.ConsultaBD(consulta);// tc
+        if (rs.next()) {// tc
             return rs.getInt("ClienteID");
         } else {
             return -1; // Valor de retorno para indicar que no se encontró el libro
@@ -136,18 +136,18 @@ public class Clientes {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Método para eliminar un cliente de la base de datos
     public void Eliminar_Clientes() throws SQLException {
-        String cadena = "delete from clientes where ClienteID='" + getClienteID()+ "'";
-        BD.ActualizarBD(cadena);
+        String cadena = "delete from clientes where ClienteID='" + getClienteID()+ "'";// ta + to
+        BD.ActualizarBD(cadena);//2ta
     }
 // Método para realizar una consulta personalizada en la base de datos
     public ResultSet consultaTabla(String sql) throws SQLException {
-        return BD.ConsultaBD(sql);
+        return BD.ConsultaBD(sql);//2Ta
     }
 // Método para imprimir en la consola la información de los clientes
     public void Consultar_Cliente() throws SQLException {
         ResultSet rs;
-        rs = BD.ConsultaBD("select * from Cliente");
-        while (rs.next()) {// n*tc
+        rs = BD.ConsultaBD("select * from Cliente");//ta
+        while (rs.next()) {
             System.out.print(rs.getInt(1) + " ");
             System.out.print(rs.getString(2) + " ");
             System.out.print(rs.getString(3) + " ");
@@ -155,19 +155,13 @@ public class Clientes {
             System.out.print(rs.getString(5) + " ");
             System.out.print(rs.getString(6) + " ");
             System.out.println("");
-        }
-        /*Tiempo Peor Esperado
-        Ta+n*tc
-        Tiempo Mejor Esperado
-        Ta+Tc
-        Tiempo Esperado
-        n
-        */
+        }//n * (8Ta)
+        
     }
     // Método para obtener una lista de clientes desde la base de datos
     public ArrayList<Clientes> Consulta() throws SQLException, Exception{
      ResultSet rs;
-        rs = BD.ConsultaBD("select * from Clientes");
+        rs = BD.ConsultaBD("select * from Clientes");//ta
         ArrayList<Clientes> Lista= new ArrayList<>();
         
         while (rs.next()) {// n*tc
@@ -180,20 +174,22 @@ public class Clientes {
            C.setCiudad(rs.getString("Ciudad"));
            C.setTelefono(rs.getString("Telefono"));
            Lista.add(C);
-    }
-        return Lista;
-      /*Tiempo Peor Esperado
-        Ta+Ta+2Ta+n(Tc+8Ta)=4Ta+n(Tc+8Ta)
-        Tiempo Mejor esperado
-        Ta+Ta+2Ta+Tc=4Ta+Tc
-        Tiempo mejor esperado
-        4Ta+n(Tc+8Ta)-(4Ta+Tc)=n(Tc+8Ta)-tc
-        */
+    }//n * (8Ta)
+        return Lista;//ta
+      
 }
 // Representación en forma de cadena del cliente
     @Override
     public String toString() {
-        return getNombre()+" "+getApellido();
+        return getNombre()+" "+getApellido();//to
     }
-    
+//    Tiempo total esperado (peor caso):
+//4Ta + 3Ta + 3Ta + 3Ta + tc + to + ta + ta + ta + to + 2Ta + ta + tc + tc + to + ta + 2Ta + ta + ta + tc + to + ta + ta + 2Ta + 2Ta + ta + ta + 2Ta + ta + n * (8Ta) + ta + to + n * (8Ta) + ta + ta + ta + n * (8Ta) + ta
+//
+//Esto es igual a:
+//15Ta + 3Tc + 5To + 4Ta + n * (25Ta + 5To) + 6Ta + 2To
+//
+//Entonces el tiempo total esperado es:
+//15Ta + 3Tc + 5To + 4Ta + n * (25Ta + 5To) + 6Ta + 2To
+//    
 }

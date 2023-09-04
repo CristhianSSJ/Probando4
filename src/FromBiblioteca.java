@@ -260,7 +260,7 @@ public class FromBiblioteca extends javax.swing.JFrame {
             B.setIdBiblioteca(Integer.parseInt(LabelIdBiblioteca.getText()));
             B.Actualizar_Biblioteca();
             this.mostrar(Tabla, "select * from biblioteca");//ta
-        } catch (Exception ex) {
+        } catch (Exception ex) {//n * (to + ta)
             Logger.getLogger(FromBiblioteca.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_UpdtBiblioJBUTTONActionPerformed
@@ -371,10 +371,7 @@ public void LlenarCBX(JComboBox AA) throws Exception {
         CBXSupervisor.removeAllItems();
         for (int i = 0; i < ListaS.size(); i++) {//n*(to + ta)
             modelo.addElement(ListaS.get(i));
-            //Tp = (2tc + 2to + 2ta) * n + (2tc + 2ta)
-     // 10TA + TO + TC + N*5TA + N*3TC + N*2TO -----TIEMPO PEOR ESPERADO
-   // TA + N *TA + N* TC + N* TO ----- TIEMPO MEJOR ESPERADO
-   // 9TA - TO - TC + N*4TA + N*2TC + N*TO ---->TIEMPO ESPERADO
+            
         }
      AA.setModel(modelo);
     }

@@ -13,7 +13,7 @@ public class FormCliente extends javax.swing.JFrame {
 
     public FormCliente() {
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null);//ta
     }
 
     /**
@@ -291,16 +291,16 @@ public class FormCliente extends javax.swing.JFrame {
     private void UPDATEJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UPDATEJBUTTONActionPerformed
         try {
             // TODO add your handling code here:
-            Clientes C = new Clientes();
+            Clientes C = new Clientes();//ta 
             C.setCedula(TextoCedula.getText());
             C.setNombre(TextoNombre.getText());
             C.setApellido(TextoApellido.getText());
             C.setDireccion(TextoDireccion.getText());
             C.setCiudad(TextoCiudad.getText());
             C.setTelefono(TextoTelefono.getText());
-           C.setClienteID(Integer.parseInt(Labelidcliente.getText()));
-            C.Actualizar_Insertar_Cliente();
-              this.mostrar(Tabla, "select * from clientes");
+           C.setClienteID(Integer.parseInt(Labelidcliente.getText()));//7tc
+            C.Actualizar_Insertar_Cliente(); //tc
+              this.mostrar(Tabla, "select * from clientes");//tc
         } catch (Exception ex) {
             Logger.getLogger(FormCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -314,20 +314,20 @@ public class FormCliente extends javax.swing.JFrame {
 
     private void CONSULTJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CONSULTJBUTTONActionPerformed
         // TODO add your handling code here:
-          this.mostrar(Tabla, "select * from clientes");
+          this.mostrar(Tabla, "select * from clientes");//ta
     }//GEN-LAST:event_CONSULTJBUTTONActionPerformed
 
     private void ADDJBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADDJBUTTONActionPerformed
         try {
             // TODO add your handling code here:
-            Clientes C = new Clientes();
+            Clientes C = new Clientes();//ta
             C.setCedula(TextoCedula.getText());
             C.setNombre(TextoNombre.getText());
             C.setApellido(TextoApellido.getText());
             C.setDireccion(TextoDireccion.getText());
             C.setCiudad(TextoCiudad.getText());
-            C.setTelefono(TextoTelefono.getText());
-            C.Insertar_Cliente();
+            C.setTelefono(TextoTelefono.getText());//7ta
+            C.Insertar_Cliente();//tc
               this.mostrar(Tabla, "select * from clientes");
             
 
@@ -342,7 +342,7 @@ public class FormCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             // TODO add your handling code here:
-            Clientes C = new Clientes();
+            Clientes C = new Clientes();//ta
             C.setCedula(TextoCedula.getText());
             C.setNombre(TextoNombre.getText());
             C.setApellido(TextoApellido.getText());
@@ -350,7 +350,7 @@ public class FormCliente extends javax.swing.JFrame {
             C.setCiudad(TextoCiudad.getText());
             C.setTelefono(TextoTelefono.getText());
             C.setClienteID(Integer.parseInt(Labelidcliente.getText()));
-            C.Eliminar_Clientes();
+            C.Eliminar_Clientes();//tc*7ta
             this.mostrar(Tabla, "select * from clientes");
         } catch (Exception ex) {
             Logger.getLogger(FormCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -359,19 +359,19 @@ public class FormCliente extends javax.swing.JFrame {
 
     private void ClearJBUTTON1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearJBUTTON1ActionPerformed
         // TODO add your handling code here:
-        TextoApellido.setText("");//ta
-        TextoCedula.setText("");//ta
-        TextoCiudad.setText("");//ta
-        TextoDireccion.setText("");//ta
-        TextoTelefono.setText("");//ta
-        TextoNombre.setText("");//ta
-        Labelidcliente.setText("");//ta
-        this.mostrar(Tabla, "select * from clientes");//3ta
+        TextoApellido.setText("");
+        TextoCedula.setText("");
+        TextoCiudad.setText("");
+        TextoDireccion.setText("");
+        TextoTelefono.setText("");
+        TextoNombre.setText("");
+        Labelidcliente.setText("");//7ta
+        this.mostrar(Tabla, "select * from clientes");
     }//GEN-LAST:event_ClearJBUTTON1ActionPerformed
 
     private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
         // TODO add your handling code here:
-        this.MouseClick();
+        this.MouseClick();//ta
     }//GEN-LAST:event_TablaMouseClicked
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
@@ -383,7 +383,7 @@ public class FormCliente extends javax.swing.JFrame {
 
      private void mostrar   (javax.swing.JTable JT, String sql) {
         try {
-            Clientes cb = new Clientes();
+            Clientes cb = new Clientes();//ta
             ResultSet rs;
                 DefaultTableModel modelo = new DefaultTableModel();
             JT.setModel(modelo);
@@ -391,7 +391,7 @@ public class FormCliente extends javax.swing.JFrame {
             ResultSetMetaData rsMd;
             rsMd = rs.getMetaData();
             int cantcolumnas = rsMd.getColumnCount();
-            for (int i = 1; i <= cantcolumnas; i++) {//n*(to + ta)
+            for (int i = 1; i <= cantcolumnas; i++) {
                 modelo.addColumn(rsMd.getColumnLabel(i));
             }
             while (rs.next()) {//n*tc
@@ -401,14 +401,7 @@ public class FormCliente extends javax.swing.JFrame {
                 }
                 modelo.addRow(columna);
             }
-            //Tm = 2ta + n * (2tc + to + ta) + tc
-            /*Tiempo Peor Esperado
-        Ta+Ta+2Ta+n(Tc+8Ta)=4Ta+n(Tc+8Ta)
-        Tiempo Mejor esperado
-        Ta+Ta+2Ta+Tc=4Ta+Tc
-        Tiempo mejor esperado
-        4Ta+n(Tc+8Ta)-(4Ta+Tc)=n(Tc+8Ta)-tc
-        */
+            //n * (tc + ta)
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error" + e.toString());
         }
